@@ -4,110 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Achados de Cozinha</title>
-    <style>
-        /* Importa uma fonte moderna do Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
-        /* Estilos Gerais */
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #FF8C00, #FFA500); /* Fundo com gradiente laranja */
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        /* Container Principal */
-        .container {
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        /* Foto de Perfil */
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #fff;
-            margin-bottom: 15px;
-        }
-
-        /* Títulos */
-        h1 {
-            font-size: 1.5em;
-            margin: 0;
-        }
-
-        p {
-            font-size: 1em;
-            margin-top: 5px;
-            margin-bottom: 30px;
-        }
-
-        /* Estilos dos Botões de Link */
-        .link-button {
-            display: block;
-            background-color: #FF7F50; /* Cor dos botões */
-            color: white;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-
-        .link-button:hover {
-            background-color: #E57248; /* Cor do botão ao passar o mouse */
-            transform: scale(1.03); /* Efeito de zoom sutil */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
         <img src="perfil.jpg" alt="Achados de Cozinha" class="profile-pic">
-
         <h1>@cozinha.criativpromo</h1>
-        <p>Os melhores itens de cozinha da Shopee com preços incríveis!</p>
+        <p>Digite o número do achado que você viu no vídeo e clique em buscar!</p>
 
-        <a href="https://s.shopee.com.br/708GuMO1tV" target="_blank" class="link-button">1. 💧 Torneira Elétrica 3300W</a>
-        
-        <a href="https://s.shopee.com.br/8pZvHPsdlg" target="_blank" class="link-button">2. 🍳 Panela Elétrica 5 em 1</a>
-        
-        <a href="https://s.shopee.com.br/7phO7x2zem" target="_blank" class="link-button">3. 🧽 Esponja Mágica Tira-Ferrugem</a>
-        
-        <a href="https://s.shopee.com.br/LbNNA6pyJ" target="_blank" class="link-button">4. 🚰 Suporte Organizador de Pia</a>
-        
-        <a href="https://s.shopee.com.br/1BAUNmgfHB" target="_blank" class="link-button">5. 🧄 Mini Processador Elétrico</a>
+        <div class="search-box">
+            <input type="number" id="product-number" placeholder="Digite o número do produto">
+            <button id="search-button">Buscar</button>
+        </div>
 
-        <a href="https://s.shopee.com.br/8fGVNDSPid" target="_blank" class="link-button">6. ⭐ Cozedor de Ovos em Formas</a>
-
-        <a href="https://s.shopee.com.br/8ztLmsRDZE" target="_blank" class="link-button">7. ✨ Batedor Semi Automático</a>
-        
-        <a href="https://s.shopee.com.br/4VQwT0wxKp" target="_blank" class="link-button">8. 🥔 Descascador Elétrico Automático</a>
-
-        <a href="https://s.shopee.com.br/708HSE7M5U" target="_blank" class="link-button">9. 🍣 Máquina de Fazer Sushi (Bazooka)</a>
-        
-        <a href="https://s.shopee.com.br/7fO167FIRd" target="_blank" class="link-button">10. 🔧 Abridor de Potes Ajustável</a>
-
-        <a href="https://s.shopee.com.br/3qBIY0ArPU" target="_blank" class="link-button">11. 🔥 Kit Mixer e Amolador de Facas</a>
-
-        <a href="https://s.shopee.com.br/4fkPe7InUI" target="_blank" class="link-button">12.   نظم Divisórias de Geladeira</a>
-
+        <div id="result-container"></div>
     </div>
 
+    <script src="script.js"></script>
 </body>
 </html>
