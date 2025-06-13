@@ -14,17 +14,34 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Erro ao carregar produtos:', error));
 
     const findProduct = () => {
-        const productNumber = productNumberInput.value;
+        // Pega o valor bruto do input e remove espaços em branco no início e no fim
+        const rawInput = productNumberInput.value.trim();
+
+        // ==================================================================
+        // AJUSTE PARA ACEITAR O "#" NO INPUT
+        // Verifica se o texto começa com '#' e, se sim, remove o primeiro caractere.
+        // Se não começar com '#', usa o texto como está.
+        const productNumber = rawInput.startsWith('#') ? rawInput.slice(1) : rawInput;
+        // ==================================================================
+
+        // RASTREAMENTO DA BUSCA
+        // Envia um evento para o Google Analytics registrando o número buscado (já limpo).
+        gtag('event', 'search', {
+            'search_term': productNumber
+        });
+        
         const product = products[productNumber];
 
         resultContainer.innerHTML = ''; // Limpa o resultado anterior
 
         if (product) {
-            // Cria o card do produto se ele for encontrado
+            // Adicionamos 'data-id' e 'data-name' para rastrear o clique depois
             const productCard = `
                 <div class="product-card">
                     <img src="${product.image}" alt="${product.name}" class="product-image">
-                    <a href="${product.link}" target="_blank" class="link-button">${product.name}</a>
+                    <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
+                        ${product.name}
+                    </a>
                 </div>
             `;
             resultContainer.innerHTML = productCard;
@@ -41,6 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
     productNumberInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
             findProduct();
+        }
+    });
+
+    // RASTREAMENTO DO CLIQUE NO LINK
+    // Adiciona um "escutador" de cliques no container de resultado.
+    resultContainer.addEventListener('click', (event) => {
+        // Verifica se o clique foi em um botão de link de produto
+        if (event.target && event.target.classList.contains('link-button')) {
+            const productId = event.target.getAttribute('data-id');
+            const productName = event.target.getAttribute('data-name');
+
+            // Envia um evento para o Google Analytics registrando o clique
+            gtag('event', 'select_item', {
+                'item_id': productId,
+                'item_name': productName
+            });
         }
     });
 });
