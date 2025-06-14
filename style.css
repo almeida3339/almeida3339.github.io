@@ -4,7 +4,7 @@
 /* Estilos Gerais */
 body {
     font-family: 'Inter', sans-serif;
-    background: #f0f2f5; /* MANTIDO O FUNDO CINZA CLARO */
+    background: #f0f2f5;
     color: #333;
     margin: 0;
     padding: 20px;
@@ -32,6 +32,30 @@ body {
 }
 
 h1 { font-size: 1.5em; margin: 0; }
+
+/* ================================== */
+/* === ESTILOS ATUALIZADOS PARA ÍCONES SOCIAIS === */
+/* ================================== */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 15px 0;
+}
+.social-links a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    font-size: 28px; /* Controla o tamanho dos ícones aqui */
+}
+.social-links a:hover {
+    color: #EE4D2D;
+    transform: scale(1.1);
+}
+/* A regra antiga para 'svg' foi removida pois não é mais necessária */
+/* ================================== */
+
+
 p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
 /* Caixa de Busca */
@@ -53,13 +77,13 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     font-size: 1em;
     font-weight: bold;
     color: white;
-    background-color: #EE4D2D; /* APLICADA A COR DA SHOPEE */
+    background-color: #EE4D2D;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
-#search-button:hover { background-color: #D94524; } /* Tom mais escuro para o hover */
+#search-button:hover { background-color: #D94524; }
 
 /* Estilos para o Resultado da Busca */
 #search-result-container {
@@ -86,80 +110,4 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 .product-card-result .link-button {
     display: block;
     width: 100%;
-    box-sizing: border-box;
-    background-color: #EE4D2D; /* APLICADA A COR DA SHOPEE */
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: background-color 0.2s ease;
-}
-.product-card-result .link-button:hover { background-color: #D94524; }
-.error-message {
-    color: #D8000C;
-    font-weight: bold;
-}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Galeria de Produtos */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 30px;
-}
-.gallery-item {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-}
-.gallery-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-.gallery-image {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-}
-.gallery-title {
-    padding: 15px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 0.9em;
-}
-
-/* Loader do Scroll Infinito */
-#loader {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.2em;
-    color: #888;
-}
-
-/* Estilos para telas menores (celulares) */
-@media (max-width: 768px) {
-    body { padding: 10px; }
-    .container { padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-    .profile-pic { width: 80px; height: 80px; margin-bottom: 10px; }
-    h1 { font-size: 1.2em; }
-    p { font-size: 0.9em; margin-bottom: 20px; }
-    .search-box { flex-direction: column; align-items: center; }
-    #product-number { width: 90%; margin-bottom: 10px; }
-    #search-button { width: 90%; }
-    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding-bottom: 20px; }
-    .gallery-item { border-radius: 8px; }
-    .gallery-image { height: 150px; }
-    .gallery-title { padding: 10px; font-size: 0.8em; }
-}
+    box-sizing
