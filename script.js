@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             galleryContainer.innerHTML = "<p class='error-message'>Não foi possível carregar os produtos. Verifique o arquivo products.json.</p>";
         });
 
-    // --- FUNÇÕES DA GALERIA E SCROLL INFINITO (COM A MUDANÇA) ---
+    // --- FUNÇÕES DA GALERIA E SCROLL INFINITO (sem alterações) ---
     function loadMoreProducts() {
         if (isLoading) return;
         isLoading = true;
@@ -49,17 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productsToLoad.forEach(key => {
             const product = allProducts[key];
-            
-            // ======================================================
-            // MUDANÇA: O item da galeria agora é uma tag <a> (link)
             const galleryItem = document.createElement('a');
             galleryItem.className = 'gallery-item';
-            galleryItem.href = product.link; // O link de afiliado é colocado diretamente aqui
-            galleryItem.target = '_blank'; // Para abrir em uma nova aba
+            galleryItem.href = product.link;
+            galleryItem.target = '_blank';
             galleryItem.setAttribute('data-id', key);
             galleryItem.setAttribute('data-name', product.name);
-            // ======================================================
-
             galleryItem.innerHTML = `
                 <img src="${product.image}" alt="${product.name}" class="gallery-image">
                 <div class="gallery-title">${key}. ${product.name}</div>
@@ -71,31 +66,57 @@ document.addEventListener('DOMContentLoaded', () => {
         isLoading = false;
     }
 
-    // --- FUNÇÃO DE BUSCA (SEM ALTERAÇÕES) ---
-    function findAndDisplayProduct(productNumber) {
-        const product = allProducts[productNumber];
+    // ======================================================
+    // === NOVA LÓGICA DE BUSCA (POR NOME OU NÚMERO) ===
+    function performSearch() {
+        const searchTerm = productNumberInput.value.trim().toLowerCase();
+        searchResultContainer.innerHTML = ''; // Limpa resultados anteriores
 
-        if (product) {
-            const productCard = `
-                <div class="product-card-result">
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
-                    <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
-                        ${product.name}
-                    </a>
-                </div>
-            `;
-            searchResultContainer.innerHTML = productCard;
-            searchResultContainer.classList.remove('hidden');
+        if (!searchTerm) {
+            searchResultContainer.classList.add('hidden');
+            return;
+        }
 
-            gtag('event', 'view_item', {
-                'item_id': productNumber,
-                'item_name': product.name
-            });
+        let matchingKeys = [];
+
+        // 1. Tenta buscar pelo número exato (limpando o '#')
+        const cleanNumber = searchTerm.replace('#', '');
+        if (allProducts[cleanNumber]) {
+            matchingKeys.push(cleanNumber);
         } else {
-            searchResultContainer.innerHTML = `<p class="error-message">Produto não encontrado. Tente outro número.</p>`;
+            // 2. Se não achar por número, busca pelo nome (busca parcial)
+            matchingKeys = productKeys.filter(key => 
+                allProducts[key].name.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        displaySearchResults(matchingKeys);
+        
+        // Rastreia a busca no Google Analytics
+        gtag('event', 'search', { 'search_term': searchTerm });
+    }
+
+    function displaySearchResults(keys) {
+        if (keys.length > 0) {
+            keys.forEach(key => {
+                const product = allProducts[key];
+                const productCard = `
+                    <div class="product-card-result">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <a href="${product.link}" target="_blank" class="link-button" data-id="${key}" data-name="${product.name}">
+                            ${product.name}
+                        </a>
+                    </div>
+                `;
+                searchResultContainer.innerHTML += productCard; // Usa += para adicionar múltiplos resultados
+            });
+            searchResultContainer.classList.remove('hidden');
+        } else {
+            searchResultContainer.innerHTML = `<p class="error-message">Nenhum produto encontrado para "${productNumberInput.value}".</p>`;
             searchResultContainer.classList.remove('hidden');
         }
     }
+    // ======================================================
 
     // --- EVENT LISTENERS ---
     window.addEventListener('scroll', () => {
@@ -105,39 +126,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    searchButton.addEventListener('click', () => {
-        const productNumber = productNumberInput.value.trim().replace('#', '');
-        if (productNumber) {
-            findAndDisplayProduct(productNumber);
-            gtag('event', 'search', { 'search_term': productNumber });
-        }
-    });
-    
+    // Botão e tecla Enter agora chamam a nova função de busca
+    searchButton.addEventListener('click', performSearch);
     productNumberInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
-            searchButton.click();
+            performSearch();
         }
     });
 
-    // ======================================================
-    // MUDANÇA: O clique na galeria agora só rastreia o evento.
-    // A navegação é feita automaticamente pelo link na tag <a>.
+    // Clique na galeria agora leva direto ao link, mas mantemos o rastreio
     galleryContainer.addEventListener('click', (event) => {
         const galleryItem = event.target.closest('.gallery-item');
         if (galleryItem) {
             const productId = galleryItem.getAttribute('data-id');
             const productName = galleryItem.getAttribute('data-name');
-            
-            // Envia um evento de clique para o Google Analytics
             gtag('event', 'select_item', {
                 'item_id': productId,
                 'item_name': productName,
-                'item_list_name': 'Gallery' // Adiciona contexto de onde o clique veio
+                'item_list_name': 'Gallery'
             });
         }
     });
-    // ======================================================
 
+    // Esconde o resultado se o campo de busca for limpo
     productNumberInput.addEventListener('input', () => {
         if (productNumberInput.value.trim() === '') {
             searchResultContainer.innerHTML = '';
@@ -145,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Rastreamento de clique no link do resultado da busca (sem alterações)
+    // Rastreamento de clique no link do resultado da busca
     searchResultContainer.addEventListener('click', (event) => {
         if (event.target && event.target.classList.contains('link-button')) {
             const productId = event.target.getAttribute('data-id');
@@ -153,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gtag('event', 'select_item', {
                 'item_id': productId,
                 'item_name': productName,
-                'item_list_name': 'Search Result' // Adiciona contexto
+                'item_list_name': 'Search Result'
             });
         }
     });
