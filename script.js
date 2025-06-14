@@ -1,75 +1,134 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Elementos da página
     const searchButton = document.getElementById('search-button');
     const productNumberInput = document.getElementById('product-number');
-    const resultContainer = document.getElementById('result-container');
-    let products = {};
+    const galleryContainer = document.getElementById('gallery-container');
+    const loader = document.getElementById('loader');
+    
+    // Elementos do Modal
+    const modalContainer = document.getElementById('modal-container');
+    const modalCloseButton = document.getElementById('modal-close-button');
+    const modalProductResult = document.getElementById('modal-product-result');
 
-    // Carrega o banco de dados de produtos do arquivo JSON
+    // Variáveis de estado
+    let allProducts = {};
+    let productKeys = [];
+    let currentPage = 0;
+    const productsPerPage = 12; // Carrega de 12 em 12
+    let isLoading = false;
+
+    // --- CARREGAMENTO INICIAL DOS DADOS ---
     fetch('products.json')
         .then(response => response.json())
         .then(data => {
-            products = data;
-            console.log('Banco de dados de produtos carregado!');
+            allProducts = data;
+            productKeys = Object.keys(allProducts); // Pega todos os números de produto
+            loadMoreProducts(); // Carrega a primeira página de produtos
         })
         .catch(error => console.error('Erro ao carregar produtos:', error));
 
-    const findProduct = () => {
-        // Pega o valor bruto do input e remove espaços em branco no início e no fim
-        const rawInput = productNumberInput.value.trim();
+    // --- FUNÇÕES DA GALERIA E SCROLL INFINITO ---
+    function loadMoreProducts() {
+        if (isLoading) return;
+        isLoading = true;
+        loader.classList.remove('loader-hidden');
 
-        // ==================================================================
-        // AJUSTE PARA ACEITAR O "#" NO INPUT
-        // Verifica se o texto começa com '#' e, se sim, remove o primeiro caractere.
-        // Se não começar com '#', usa o texto como está.
-        const productNumber = rawInput.startsWith('#') ? rawInput.slice(1) : rawInput;
-        // ==================================================================
+        const startIndex = currentPage * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+        const productsToLoad = productKeys.slice(startIndex, endIndex);
 
-        // RASTREAMENTO DA BUSCA
-        // Envia um evento para o Google Analytics registrando o número buscado (já limpo).
-        gtag('event', 'search', {
-            'search_term': productNumber
-        });
-        
-        const product = products[productNumber];
-
-        resultContainer.innerHTML = ''; // Limpa o resultado anterior
-
-        if (product) {
-            // Adicionamos 'data-id' e 'data-name' para rastrear o clique depois
-            const productCard = `
-                <div class="product-card">
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
-                    <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
-                        ${product.name}
-                    </a>
-                </div>
+        productsToLoad.forEach(key => {
+            const product = allProducts[key];
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            galleryItem.setAttribute('data-id', key);
+            galleryItem.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="gallery-image">
+                <div class="gallery-title">${key}. ${product.name}</div>
             `;
-            resultContainer.innerHTML = productCard;
+            galleryContainer.appendChild(galleryItem);
+        });
+
+        currentPage++;
+        isLoading = false;
+        loader.classList.add('loader-hidden');
+    }
+
+    // --- FUNÇÕES DO MODAL E DA BUSCA ---
+    function displayProductInModal(productNumber) {
+        const product = allProducts[productNumber];
+        if (product) {
+            modalProductResult.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
+                    ${product.name}
+                </a>
+            `;
+            modalContainer.classList.remove('modal-hidden');
+            
+            // Rastreia o clique ou busca
+            gtag('event', 'view_item', {
+                'item_id': productNumber,
+                'item_name': product.name
+            });
+
         } else {
-            // Mostra uma mensagem de erro se não encontrar
-            resultContainer.innerHTML = '<p class="error-message">Produto não encontrado. Tente outro número.</p>';
+            alert('Produto não encontrado. Tente outro número.');
         }
-    };
+    }
 
-    // Adiciona o evento de clique no botão
-    searchButton.addEventListener('click', findProduct);
+    function closeModal() {
+        modalContainer.classList.add('modal-hidden');
+        modalProductResult.innerHTML = '';
+    }
 
-    // Opcional: permite buscar apertando "Enter" no campo de número
-    productNumberInput.addEventListener('keyup', (event) => {
-        if (event.key === 'Enter') {
-            findProduct();
+    // --- EVENT LISTENERS (OS "OUVINTES" DE AÇÕES) ---
+
+    // Scroll Infinito
+    window.addEventListener('scroll', () => {
+        if (isLoading) return;
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+            loadMoreProducts();
         }
     });
 
-    // RASTREAMENTO DO CLIQUE NO LINK
-    // Adiciona um "escutador" de cliques no container de resultado.
-    resultContainer.addEventListener('click', (event) => {
-        // Verifica se o clique foi em um botão de link de produto
+    // Botão de busca
+    searchButton.addEventListener('click', () => {
+        const productNumber = productNumberInput.value.trim().replace('#', '');
+        if (productNumber) {
+            displayProductInModal(productNumber);
+        }
+    });
+    
+    // Busca com a tecla Enter
+    productNumberInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            searchButton.click();
+        }
+    });
+
+    // Clique em um item da galeria
+    galleryContainer.addEventListener('click', (event) => {
+        const galleryItem = event.target.closest('.gallery-item');
+        if (galleryItem) {
+            const productId = galleryItem.getAttribute('data-id');
+            displayProductInModal(productId);
+        }
+    });
+
+    // Fechar o Modal
+    modalCloseButton.addEventListener('click', closeModal);
+    modalContainer.addEventListener('click', (event) => {
+        if (event.target === modalContainer) {
+            closeModal();
+        }
+    });
+
+    // Rastreamento de clique no link de afiliado dentro do modal
+    modalProductResult.addEventListener('click', (event) => {
         if (event.target && event.target.classList.contains('link-button')) {
             const productId = event.target.getAttribute('data-id');
             const productName = event.target.getAttribute('data-name');
-
-            // Envia um evento para o Google Analytics registrando o clique
             gtag('event', 'select_item', {
                 'item_id': productId,
                 'item_name': productName
