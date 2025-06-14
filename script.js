@@ -15,19 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CARREGAMENTO INICIAL DOS DADOS ---
     fetch('products.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro de rede ao carregar products.json');
+            }
+            return response.json();
+        })
         .then(data => {
             allProducts = data;
-            
-            // ======================================================
-            // AJUSTE PARA INVERTER A ORDEM
-            // Pega as chaves (os números dos produtos) e inverte o array.
             productKeys = Object.keys(allProducts).reverse();
-            // ======================================================
-
-            loadMoreProducts(); // Carrega a primeira página já na nova ordem
+            loadMoreProducts();
         })
-        .catch(error => console.error('Erro ao carregar produtos:', error));
+        .catch(error => {
+            console.error('Erro ao carregar ou processar o arquivo de produtos:', error);
+            galleryContainer.innerHTML = "<p class='error-message'>Não foi possível carregar os produtos. Verifique o arquivo products.json.</p>";
+        });
 
     // --- FUNÇÕES DA GALERIA E SCROLL INFINITO ---
     function loadMoreProducts() {
@@ -38,6 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const startIndex = currentPage * productsPerPage;
         const endIndex = startIndex + productsPerPage;
         const productsToLoad = productKeys.slice(startIndex, endIndex);
+        
+        if (productsToLoad.length === 0 && currentPage > 0) {
+            loader.textContent = "Fim dos resultados :)"; // Avisa que não há mais produtos
+        } else {
+            loader.classList.add('hidden');
+        }
 
         productsToLoad.forEach(key => {
             const product = allProducts[key];
@@ -53,10 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentPage++;
         isLoading = false;
-        loader.classList.add('hidden');
     }
 
-    // --- FUNÇÃO DE BUSCA ATUALIZADA ---
+    // --- FUNÇÃO DE BUSCA ---
     function findAndDisplayProduct(productNumber) {
         const product = allProducts[productNumber];
 
@@ -70,22 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             searchResultContainer.innerHTML = productCard;
-            searchResultContainer.classList.remove('hidden'); // Mostra o container
+            searchResultContainer.classList.remove('hidden');
 
-            // Rastreia o evento
             gtag('event', 'view_item', {
                 'item_id': productNumber,
                 'item_name': product.name
             });
         } else {
             searchResultContainer.innerHTML = `<p class="error-message">Produto não encontrado. Tente outro número.</p>`;
-            searchResultContainer.classList.remove('hidden'); // Mostra o erro
+            searchResultContainer.classList.remove('hidden');
         }
     }
 
     // --- EVENT LISTENERS ---
-
-    // Scroll Infinito
     window.addEventListener('scroll', () => {
         if (isLoading) return;
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
@@ -93,35 +97,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Botão de busca
     searchButton.addEventListener('click', () => {
         const productNumber = productNumberInput.value.trim().replace('#', '');
         if (productNumber) {
             findAndDisplayProduct(productNumber);
-            // Rastreia a busca
             gtag('event', 'search', { 'search_term': productNumber });
         }
     });
     
-    // Busca com a tecla Enter
     productNumberInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
             searchButton.click();
         }
     });
 
-    // Clique em um item da galeria
     galleryContainer.addEventListener('click', (event) => {
         const galleryItem = event.target.closest('.gallery-item');
         if (galleryItem) {
             const productId = galleryItem.getAttribute('data-id');
             findAndDisplayProduct(productId);
-            // Rola a página para o topo para que o resultado seja visível
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     });
 
-    // NOVA FUNÇÃO: Esconde o resultado se o campo de busca for limpo
     productNumberInput.addEventListener('input', () => {
         if (productNumberInput.value.trim() === '') {
             searchResultContainer.innerHTML = '';
@@ -129,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Rastreamento de clique no link de afiliado
     searchResultContainer.addEventListener('click', (event) => {
         if (event.target && event.target.classList.contains('link-button')) {
             const productId = event.target.getAttribute('data-id');
