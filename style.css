@@ -68,7 +68,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    padding-bottom: 30px; /* Adiciona um espaço abaixo da galeria */
+    padding-bottom: 30px;
 }
 .gallery-item {
     background: white;
@@ -95,7 +95,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     padding: 15px;
     font-weight: bold;
     text-align: center;
-    font-size: 0.9em; /* Reduz um pouco a fonte do título */
+    font-size: 0.9em;
 }
 
 /* Loader do Scroll Infinito */
@@ -131,6 +131,10 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     width: 90%;
     position: relative;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    min-height: 100px; /* Altura mínima para o spinner aparecer bem */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #modal-close-button {
     position: absolute;
@@ -166,14 +170,31 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     to { opacity: 1; }
 }
 
+/* ================================== */
+/* === NOVOS ESTILOS PARA O SPINNER === */
+/* ================================== */
+.modal-loader {
+    border: 5px solid #f3f3f3; /* Cinza claro */
+    border-top: 5px solid #FF7F50; /* Laranja */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
     body {
-        padding: 10px; /* Reduz o padding geral */
+        padding: 10px;
     }
     .container {
-        padding: 20px; /* Reduz o padding do cabeçalho */
-        border-radius: 15px; /* Arredondamento menor */
+        padding: 20px;
+        border-radius: 15px;
         margin-bottom: 20px;
     }
     .profile-pic {
@@ -189,7 +210,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
         margin-bottom: 20px;
     }
     .search-box {
-        flex-direction: column; /* Empilha os elementos em telas menores */
+        flex-direction: column;
         align-items: center;
     }
     #product-number {
@@ -200,8 +221,8 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
         width: 90%;
     }
     .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Ajusta para dois itens */
-        gap: 10px; /* Reduz o espaçamento */
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
         padding-bottom: 20px;
     }
     .gallery-item {
@@ -214,7 +235,6 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
         padding: 10px;
         font-size: 0.8em;
     }
-    /* Ajuste para o modal em telas menores */
     .modal-content {
         padding: 20px;
         border-radius: 10px;

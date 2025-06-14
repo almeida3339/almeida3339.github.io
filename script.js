@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allProducts = {};
     let productKeys = [];
     let currentPage = 0;
-    const productsPerPage = 12; // Carrega de 12 em 12
+    const productsPerPage = 12;
     let isLoading = false;
 
     // --- CARREGAMENTO INICIAL DOS DADOS ---
@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             allProducts = data;
-            productKeys = Object.keys(allProducts); // Pega todos os números de produto
-            loadMoreProducts(); // Carrega a primeira página de produtos
+            productKeys = Object.keys(allProducts);
+            loadMoreProducts();
         })
         .catch(error => console.error('Erro ao carregar produtos:', error));
 
@@ -54,18 +54,39 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.classList.add('loader-hidden');
     }
 
-    // --- FUNÇÕES DO MODAL E DA BUSCA ---
+    // --- FUNÇÕES DO MODAL E DA BUSCA (COM LÓGICA DE LOADING) ---
     function displayProductInModal(productNumber) {
         const product = allProducts[productNumber];
+
         if (product) {
-            modalProductResult.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
-                    ${product.name}
-                </a>
-            `;
+            // 1. Mostra o modal com o spinner de carregamento
+            modalProductResult.innerHTML = '<div class="modal-loader"></div>';
             modalContainer.classList.remove('modal-hidden');
+
+            // 2. Pré-carrega a imagem em segundo plano
+            const productImage = new Image();
+            productImage.src = product.image;
+
+            // 3. Quando a imagem terminar de carregar, substitui o spinner pelo conteúdo final
+            productImage.onload = () => {
+                modalProductResult.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
+                        ${product.name}
+                    </a>
+                `;
+            };
             
+            // Caso a imagem dê erro, mostra apenas o botão de link
+            productImage.onerror = () => {
+                 modalProductResult.innerHTML = `
+                    <p>Erro ao carregar a imagem.</p>
+                    <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
+                        ${product.name}
+                    </a>
+                `;
+            };
+
             // Rastreia o clique ou busca
             gtag('event', 'view_item', {
                 'item_id': productNumber,
