@@ -4,18 +4,15 @@
 /* Estilos Gerais */
 body {
     font-family: 'Inter', sans-serif;
-    background: #f0f2f5;
+    background-color: #EE4D2D; /* APLICADA A COR DA SHOPEE */
     color: #333;
     margin: 0;
     padding: 20px;
 }
 
-/* ================================== */
-/* === AJUSTE 1: LARGURA DO CONTAINER === */
-/* ================================== */
 /* Container Principal (Cabeçalho) */
 .container {
-    max-width: 1200px; /* Alterado de 900px para 1200px para alinhar com a galeria */
+    max-width: 1200px;
     margin: 0 auto 30px auto;
     text-align: center;
     background-color: white;
@@ -56,17 +53,15 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     font-size: 1em;
     font-weight: bold;
     color: white;
-    background-color: #FF7F50;
+    background-color: #EE4D2D; /* APLICADA A COR DA SHOPEE */
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
-#search-button:hover { background-color: #E57248; }
+#search-button:hover { background-color: #D94524; } /* Tom mais escuro para o hover */
 
-/* ================================== */
-/* === AJUSTE 2: TAMANHO DO RESULTADO === */
-/* ================================== */
+/* Estilos para o Resultado da Busca */
 #search-result-container {
     padding: 20px 0;
     animation: fadeIn 0.5s ease;
@@ -75,10 +70,10 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     display: none;
 }
 .product-card-result {
-    max-width: 300px; /* Alterado de 600px para 300px para diminuir o card do resultado */
+    max-width: 300px;
     margin: 0 auto;
-    background: #fff8f5;
-    border: 1px solid #ffe6d9;
+    background: #fff;
+    border: 1px solid #eee;
     padding: 20px;
     border-radius: 12px;
 }
@@ -92,7 +87,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     display: block;
     width: 100%;
     box-sizing: border-box;
-    background-color: #FF7F50;
+    background-color: #EE4D2D; /* APLICADA A COR DA SHOPEE */
     color: white;
     padding: 15px;
     border-radius: 10px;
@@ -101,7 +96,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     font-size: 1.1em;
     transition: background-color 0.2s ease;
 }
-.product-card-result .link-button:hover { background-color: #E57248; }
+.product-card-result .link-button:hover { background-color: #D94524; }
 .error-message {
     color: #D8000C;
     font-weight: bold;
@@ -153,7 +148,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     color: #888;
 }
 
-/* Estilos para telas menores (celulares) - NENHUMA ALTERAÇÃO AQUI */
+/* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
     body { padding: 10px; }
     .container { padding: 20px; border-radius: 15px; margin-bottom: 20px; }
