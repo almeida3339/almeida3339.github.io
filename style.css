@@ -67,7 +67,6 @@ h1 { font-size: 1.5em; margin: 0; }
     color: white !important;
 }
 
-
 p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
 /* Caixa de Busca */
@@ -97,57 +96,38 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 }
 #search-button:hover { background-color: #D94524; }
 
-/* Estilos para o Resultado da Busca */
-#search-result-container {
-    padding: 20px 0;
-    animation: fadeIn 0.5s ease;
-}
-.hidden {
-    display: none;
-}
-.product-card-result {
-    max-width: 300px;
-    margin: 0 auto;
-    background: #fff;
-    border: 1px solid #eee;
-    padding: 20px;
-    border-radius: 12px;
-}
-.product-card-result .product-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-.product-card-result .link-button {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #EE4D2D;
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: background-color 0.2s ease;
-}
-.product-card-result .link-button:hover { background-color: #D94524; }
-.error-message {
-    color: #D8000C;
-    font-weight: bold;
-}
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Galeria de Produtos */
+/* ================================== */
+/* === ESTILOS UNIFICADOS PARA GALERIA E RESULTADOS === */
+/* ================================== */
+#search-result-container,
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
     max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 30px;
+    margin: 20px auto;
+    padding-bottom: 10px;
 }
+/* Animação apenas para o resultado da busca */
+#search-result-container {
+    animation: fadeIn 0.5s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Os estilos .product-card-result foram removidos pois agora usamos o .gallery-item */
+
+.error-message {
+    color: #D8000C;
+    font-weight: bold;
+    grid-column: 1 / -1; /* Faz a mensagem de erro ocupar toda a largura da grade */
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Estilo unificado para todos os cards de produto */
 .gallery-item {
     background: white;
     border-radius: 12px;
@@ -184,45 +164,6 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     color: #888;
 }
 
-/* ================================== */
-/* === ESTILOS DO RODAPÉ ATUALIZADOS === */
-/* ================================== */
-footer {
-    max-width: 1200px;      /* NOVO: Alinha o rodapé com a galeria */
-    margin: 40px auto 0 auto; /* NOVO: Centraliza o bloco do rodapé */
-    text-align: center;
-    padding: 20px;
-    font-size: 0.75em;      /* AJUSTADO: Fonte um pouco menor */
-    color: #888;
-    border-top: 1px solid #e0e0e0;
-}
-footer a {
-    color: #555;
-    font-weight: bold;
-    text-decoration: none;
-}
-footer a:hover {
-    text-decoration: underline;
-}
-.privacy-content {
-    text-align: left;
-    max-width: 800px;
-    margin: 20px auto;
-}
-.privacy-content h2 {
-    margin-top: 30px;
-}
-.back-link {
-    display: inline-block;
-    margin-top: 30px;
-    font-weight: bold;
-    color: #EE4D2D;
-    text-decoration: none;
-}
-.back-link:hover {
-    text-decoration: underline;
-}
-
 /* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
     body { padding: 10px; }
@@ -235,7 +176,15 @@ footer a:hover {
     .search-box { flex-direction: column; align-items: center; }
     #product-number { width: 90%; margin-bottom: 10px; }
     #search-button { width: 90%; }
-    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding-bottom: 20px; }
+    
+    /* Regra de grid para celular aplicada a ambos os containers */
+    #search-result-container,
+    .gallery-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+        gap: 10px; 
+        padding-bottom: 20px;
+    }
+
     .gallery-item { border-radius: 8px; }
     .gallery-image { height: 150px; }
     .gallery-title { padding: 10px; font-size: 0.8em; }

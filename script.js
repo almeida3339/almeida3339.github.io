@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             galleryContainer.innerHTML = "<p class='error-message'>Não foi possível carregar os produtos. Verifique o arquivo products.json.</p>";
         });
 
-    // --- FUNÇÕES DA GALERIA E SCROLL INFINITO (sem alterações) ---
+    // --- FUNÇÕES DA GALERIA E SCROLL INFINITO ---
     function loadMoreProducts() {
         if (isLoading) return;
         isLoading = true;
@@ -49,66 +49,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productsToLoad.forEach(key => {
             const product = allProducts[key];
-            const galleryItem = document.createElement('a');
-            galleryItem.className = 'gallery-item';
-            galleryItem.href = product.link;
-            galleryItem.target = '_blank';
-            galleryItem.setAttribute('data-id', key);
-            galleryItem.setAttribute('data-name', product.name);
-            galleryItem.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" class="gallery-image">
-                <div class="gallery-title">${key}. ${product.name}</div>
-            `;
+            const galleryItem = createGalleryItem(key, product); // Usa a nova função
             galleryContainer.appendChild(galleryItem);
         });
 
         currentPage++;
         isLoading = false;
     }
-
-    // ======================================================
-    // === NOVA LÓGICA DE BUSCA (POR NOME OU NÚMERO) ===
-    function performSearch() {
-        const searchTerm = productNumberInput.value.trim().toLowerCase();
-        searchResultContainer.innerHTML = ''; // Limpa resultados anteriores
-
-        if (!searchTerm) {
-            searchResultContainer.classList.add('hidden');
-            return;
-        }
-
-        let matchingKeys = [];
-
-        // 1. Tenta buscar pelo número exato (limpando o '#')
-        const cleanNumber = searchTerm.replace('#', '');
-        if (allProducts[cleanNumber]) {
-            matchingKeys.push(cleanNumber);
-        } else {
-            // 2. Se não achar por número, busca pelo nome (busca parcial)
-            matchingKeys = productKeys.filter(key => 
-                allProducts[key].name.toLowerCase().includes(searchTerm)
-            );
-        }
-
-        displaySearchResults(matchingKeys);
-        
-        // Rastreia a busca no Google Analytics
-        gtag('event', 'search', { 'search_term': searchTerm });
+    
+    // --- NOVA FUNÇÃO REUTILIZÁVEL PARA CRIAR CARDS ---
+    function createGalleryItem(key, product) {
+        const galleryItem = document.createElement('a');
+        galleryItem.className = 'gallery-item';
+        galleryItem.href = product.link;
+        galleryItem.target = '_blank';
+        galleryItem.setAttribute('data-id', key);
+        galleryItem.setAttribute('data-name', product.name);
+        galleryItem.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" class="gallery-image">
+            <div class="gallery-title">${key}. ${product.name}</div>
+        `;
+        return galleryItem;
     }
 
+    // --- FUNÇÃO DE BUSCA ATUALIZADA ---
     function displaySearchResults(keys) {
         if (keys.length > 0) {
             keys.forEach(key => {
                 const product = allProducts[key];
-                const productCard = `
-                    <div class="product-card-result">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <a href="${product.link}" target="_blank" class="link-button" data-id="${key}" data-name="${product.name}">
-                            ${product.name}
-                        </a>
-                    </div>
-                `;
-                searchResultContainer.innerHTML += productCard; // Usa += para adicionar múltiplos resultados
+                const productCard = createGalleryItem(key, product); // Reutiliza a função de criar cards
+                searchResultContainer.appendChild(productCard);
             });
             searchResultContainer.classList.remove('hidden');
         } else {
@@ -116,7 +86,29 @@ document.addEventListener('DOMContentLoaded', () => {
             searchResultContainer.classList.remove('hidden');
         }
     }
-    // ======================================================
+
+    function performSearch() {
+        const searchTerm = productNumberInput.value.trim().toLowerCase();
+        searchResultContainer.innerHTML = ''; // Limpa resultados anteriores
+        searchResultContainer.classList.add('hidden'); // Esconde antes da nova busca
+
+        if (!searchTerm) {
+            return;
+        }
+
+        let matchingKeys = [];
+        const cleanNumber = searchTerm.replace('#', '');
+        if (allProducts[cleanNumber]) {
+            matchingKeys.push(cleanNumber);
+        } else {
+            matchingKeys = productKeys.filter(key => 
+                allProducts[key].name.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        displaySearchResults(matchingKeys);
+        gtag('event', 'search', { 'search_term': searchTerm });
+    }
 
     // --- EVENT LISTENERS ---
     window.addEventListener('scroll', () => {
@@ -126,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Botão e tecla Enter agora chamam a nova função de busca
     searchButton.addEventListener('click', performSearch);
     productNumberInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
@@ -134,38 +125,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Clique na galeria agora leva direto ao link, mas mantemos o rastreio
-    galleryContainer.addEventListener('click', (event) => {
-        const galleryItem = event.target.closest('.gallery-item');
-        if (galleryItem) {
-            const productId = galleryItem.getAttribute('data-id');
-            const productName = galleryItem.getAttribute('data-name');
-            gtag('event', 'select_item', {
-                'item_id': productId,
-                'item_name': productName,
-                'item_list_name': 'Gallery'
-            });
-        }
-    });
+    const trackItemClick = (container, listName) => {
+        container.addEventListener('click', (event) => {
+            const galleryItem = event.target.closest('.gallery-item');
+            if (galleryItem) {
+                const productId = galleryItem.getAttribute('data-id');
+                const productName = galleryItem.getAttribute('data-name');
+                gtag('event', 'select_item', {
+                    'item_id': productId,
+                    'item_name': productName,
+                    'item_list_name': listName
+                });
+            }
+        });
+    };
 
-    // Esconde o resultado se o campo de busca for limpo
+    trackItemClick(galleryContainer, 'Gallery');
+    trackItemClick(searchResultContainer, 'Search Result');
+
     productNumberInput.addEventListener('input', () => {
         if (productNumberInput.value.trim() === '') {
             searchResultContainer.innerHTML = '';
             searchResultContainer.classList.add('hidden');
-        }
-    });
-    
-    // Rastreamento de clique no link do resultado da busca
-    searchResultContainer.addEventListener('click', (event) => {
-        if (event.target && event.target.classList.contains('link-button')) {
-            const productId = event.target.getAttribute('data-id');
-            const productName = event.target.getAttribute('data-name');
-            gtag('event', 'select_item', {
-                'item_id': productId,
-                'item_name': productName,
-                'item_list_name': 'Search Result'
-            });
         }
     });
 });
