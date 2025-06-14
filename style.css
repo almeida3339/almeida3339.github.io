@@ -33,7 +33,6 @@ body {
 
 h1 { font-size: 1.5em; margin: 0; }
 
-/* Ícones e Botão de Cupom */
 .social-links {
     display: flex;
     justify-content: center;
@@ -52,8 +51,6 @@ h1 { font-size: 1.5em; margin: 0; }
     color: #EE4D2D;
     transform: scale(1.1);
 }
-
-/* Estilo específico para o novo botão de cupons */
 .coupon-button {
     font-size: 0.9em !important;
     font-weight: bold;
@@ -62,8 +59,8 @@ h1 { font-size: 1.5em; margin: 0; }
     padding: 8px 16px;
     border-radius: 20px;
     transition: background-color 0.2s ease, transform 0.2s ease;
-    text-align: center; /* NOVO: Garante a centralização */
-    line-height: 1.3;    /* NOVO: Ajusta a altura entre as linhas */
+    text-align: center;
+    line-height: 1.3;
 }
 .coupon-button:hover {
     background-color: #D94524;
@@ -187,6 +184,45 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     color: #888;
 }
 
+/* ================================== */
+/* === ESTILOS DO RODAPÉ ATUALIZADOS === */
+/* ================================== */
+footer {
+    max-width: 1200px;      /* NOVO: Alinha o rodapé com a galeria */
+    margin: 40px auto 0 auto; /* NOVO: Centraliza o bloco do rodapé */
+    text-align: center;
+    padding: 20px;
+    font-size: 0.75em;      /* AJUSTADO: Fonte um pouco menor */
+    color: #888;
+    border-top: 1px solid #e0e0e0;
+}
+footer a {
+    color: #555;
+    font-weight: bold;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+.privacy-content {
+    text-align: left;
+    max-width: 800px;
+    margin: 20px auto;
+}
+.privacy-content h2 {
+    margin-top: 30px;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #EE4D2D;
+    text-decoration: none;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
 /* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
     body { padding: 10px; }
@@ -203,4 +239,5 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     .gallery-item { border-radius: 8px; }
     .gallery-image { height: 150px; }
     .gallery-title { padding: 10px; font-size: 0.8em; }
+    footer { font-size: 0.7em; }
 }
