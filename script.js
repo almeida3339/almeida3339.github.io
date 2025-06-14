@@ -4,11 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productNumberInput = document.getElementById('product-number');
     const galleryContainer = document.getElementById('gallery-container');
     const loader = document.getElementById('loader');
-    
-    // Elementos do Modal
-    const modalContainer = document.getElementById('modal-container');
-    const modalCloseButton = document.getElementById('modal-close-button');
-    const modalProductResult = document.getElementById('modal-product-result');
+    const searchResultContainer = document.getElementById('search-result-container');
 
     // Variáveis de estado
     let allProducts = {};
@@ -31,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadMoreProducts() {
         if (isLoading) return;
         isLoading = true;
-        loader.classList.remove('loader-hidden');
+        loader.classList.remove('hidden');
 
         const startIndex = currentPage * productsPerPage;
         const endIndex = startIndex + productsPerPage;
@@ -51,59 +47,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentPage++;
         isLoading = false;
-        loader.classList.add('loader-hidden');
+        loader.classList.add('hidden');
     }
 
-    // --- FUNÇÕES DO MODAL E DA BUSCA (COM LÓGICA DE LOADING) ---
-    function displayProductInModal(productNumber) {
+    // --- FUNÇÃO DE BUSCA ATUALIZADA ---
+    function findAndDisplayProduct(productNumber) {
         const product = allProducts[productNumber];
 
         if (product) {
-            // 1. Mostra o modal com o spinner de carregamento
-            modalProductResult.innerHTML = '<div class="modal-loader"></div>';
-            modalContainer.classList.remove('modal-hidden');
-
-            // 2. Pré-carrega a imagem em segundo plano
-            const productImage = new Image();
-            productImage.src = product.image;
-
-            // 3. Quando a imagem terminar de carregar, substitui o spinner pelo conteúdo final
-            productImage.onload = () => {
-                modalProductResult.innerHTML = `
+            const productCard = `
+                <div class="product-card-result">
                     <img src="${product.image}" alt="${product.name}" class="product-image">
                     <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
                         ${product.name}
                     </a>
-                `;
-            };
-            
-            // Caso a imagem dê erro, mostra apenas o botão de link
-            productImage.onerror = () => {
-                 modalProductResult.innerHTML = `
-                    <p>Erro ao carregar a imagem.</p>
-                    <a href="${product.link}" target="_blank" class="link-button" data-id="${productNumber}" data-name="${product.name}">
-                        ${product.name}
-                    </a>
-                `;
-            };
+                </div>
+            `;
+            searchResultContainer.innerHTML = productCard;
+            searchResultContainer.classList.remove('hidden'); // Mostra o container
 
-            // Rastreia o clique ou busca
+            // Rastreia o evento
             gtag('event', 'view_item', {
                 'item_id': productNumber,
                 'item_name': product.name
             });
-
         } else {
-            alert('Produto não encontrado. Tente outro número.');
+            searchResultContainer.innerHTML = `<p class="error-message">Produto não encontrado. Tente outro número.</p>`;
+            searchResultContainer.classList.remove('hidden'); // Mostra o erro
         }
     }
 
-    function closeModal() {
-        modalContainer.classList.add('modal-hidden');
-        modalProductResult.innerHTML = '';
-    }
-
-    // --- EVENT LISTENERS (OS "OUVINTES" DE AÇÕES) ---
+    // --- EVENT LISTENERS ---
 
     // Scroll Infinito
     window.addEventListener('scroll', () => {
@@ -117,10 +91,12 @@ document.addEventListener('DOMContentLoaded', () => {
     searchButton.addEventListener('click', () => {
         const productNumber = productNumberInput.value.trim().replace('#', '');
         if (productNumber) {
-            displayProductInModal(productNumber);
+            findAndDisplayProduct(productNumber);
+            // Rastreia a busca
+            gtag('event', 'search', { 'search_term': productNumber });
         }
     });
-    
+
     // Busca com a tecla Enter
     productNumberInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
@@ -133,20 +109,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const galleryItem = event.target.closest('.gallery-item');
         if (galleryItem) {
             const productId = galleryItem.getAttribute('data-id');
-            displayProductInModal(productId);
+            findAndDisplayProduct(productId);
+            // Rola a página para o topo para que o resultado seja visível
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     });
 
-    // Fechar o Modal
-    modalCloseButton.addEventListener('click', closeModal);
-    modalContainer.addEventListener('click', (event) => {
-        if (event.target === modalContainer) {
-            closeModal();
+    // NOVA FUNÇÃO: Esconde o resultado se o campo de busca for limpo
+    productNumberInput.addEventListener('input', () => {
+        if (productNumberInput.value.trim() === '') {
+            searchResultContainer.innerHTML = '';
+            searchResultContainer.classList.add('hidden');
         }
     });
-
-    // Rastreamento de clique no link de afiliado dentro do modal
-    modalProductResult.addEventListener('click', (event) => {
+    
+    // Rastreamento de clique no link de afiliado
+    searchResultContainer.addEventListener('click', (event) => {
         if (event.target && event.target.classList.contains('link-button')) {
             const productId = event.target.getAttribute('data-id');
             const productName = event.target.getAttribute('data-name');
