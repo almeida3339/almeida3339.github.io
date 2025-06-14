@@ -33,10 +33,13 @@ body {
 
 h1 { font-size: 1.5em; margin: 0; }
 
+/* Ícones e Botão de Cupom */
 .social-links {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    align-items: center; /* Alinha verticalmente ícones e botão */
+    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas pequenas */
+    gap: 15px 25px; /* Espaçamento vertical e horizontal */
     margin: 15px 0;
 }
 .social-links a {
@@ -49,6 +52,22 @@ h1 { font-size: 1.5em; margin: 0; }
     color: #EE4D2D;
     transform: scale(1.1);
 }
+
+/* Estilo específico para o novo botão de cupons */
+.coupon-button {
+    font-size: 0.9em !important; /* Sobrescreve o font-size para texto */
+    font-weight: bold;
+    color: white !important; /* Sobrescreve a cor para branco */
+    background-color: #EE4D2D;
+    padding: 8px 16px;
+    border-radius: 20px; /* Deixa o botão arredondado */
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.coupon-button:hover {
+    background-color: #D94524;
+    color: white !important; /* Mantém a cor do texto no hover */
+}
+
 
 p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
@@ -172,6 +191,8 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     .container { padding: 20px; border-radius: 15px; margin-bottom: 20px; }
     .profile-pic { width: 80px; height: 80px; margin-bottom: 10px; }
     h1 { font-size: 1.2em; }
+    .social-links a { font-size: 24px; } /* Diminui um pouco os ícones no celular */
+    .coupon-button { font-size: 0.8em !important; padding: 6px 12px; } /* Diminui o botão de cupom */
     p { font-size: 0.9em; margin-bottom: 20px; }
     .search-box { flex-direction: column; align-items: center; }
     #product-number { width: 90%; margin-bottom: 10px; }
