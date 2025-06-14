@@ -18,8 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             allProducts = data;
-            productKeys = Object.keys(allProducts);
-            loadMoreProducts();
+            
+            // ======================================================
+            // AJUSTE PARA INVERTER A ORDEM
+            // Pega as chaves (os números dos produtos) e inverte o array.
+            productKeys = Object.keys(allProducts).reverse();
+            // ======================================================
+
+            loadMoreProducts(); // Carrega a primeira página já na nova ordem
         })
         .catch(error => console.error('Erro ao carregar produtos:', error));
 
@@ -96,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gtag('event', 'search', { 'search_term': productNumber });
         }
     });
-
+    
     // Busca com a tecla Enter
     productNumberInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
