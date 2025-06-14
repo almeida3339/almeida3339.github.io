@@ -49,27 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productsToLoad.forEach(key => {
             const product = allProducts[key];
-            const galleryItem = createGalleryItem(key, product); // Usa a nova função
+            const galleryItem = document.createElement('a');
+            galleryItem.className = 'gallery-item';
+            galleryItem.href = product.link;
+            galleryItem.target = '_blank';
+            galleryItem.setAttribute('data-id', key);
+            galleryItem.setAttribute('data-name', product.name);
+            galleryItem.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="gallery-image">
+                <div class="gallery-title">${key}. ${product.name}</div>
+            `;
             galleryContainer.appendChild(galleryItem);
         });
 
         currentPage++;
         isLoading = false;
-    }
-    
-    // --- NOVA FUNÇÃO REUTILIZÁVEL PARA CRIAR CARDS ---
-    function createGalleryItem(key, product) {
-        const galleryItem = document.createElement('a');
-        galleryItem.className = 'gallery-item';
-        galleryItem.href = product.link;
-        galleryItem.target = '_blank';
-        galleryItem.setAttribute('data-id', key);
-        galleryItem.setAttribute('data-name', product.name);
-        galleryItem.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="gallery-image">
-            <div class="gallery-title">${key}. ${product.name}</div>
-        `;
-        return galleryItem;
     }
 
     // --- FUNÇÃO DE BUSCA ATUALIZADA ---
@@ -77,7 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (keys.length > 0) {
             keys.forEach(key => {
                 const product = allProducts[key];
-                const productCard = createGalleryItem(key, product); // Reutiliza a função de criar cards
+                // VOLTAMOS A USAR O 'product-card-result' para ter um estilo separado
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card-result';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <a href="${product.link}" target="_blank" class="link-button" data-id="${key}" data-name="${product.name}">
+                        ${product.name}
+                    </a>
+                `;
                 searchResultContainer.appendChild(productCard);
             });
             searchResultContainer.classList.remove('hidden');
@@ -89,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function performSearch() {
         const searchTerm = productNumberInput.value.trim().toLowerCase();
-        searchResultContainer.innerHTML = ''; // Limpa resultados anteriores
-        searchResultContainer.classList.add('hidden'); // Esconde antes da nova busca
+        searchResultContainer.innerHTML = '';
+        searchResultContainer.classList.add('hidden');
 
         if (!searchTerm) {
             return;
@@ -125,28 +127,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const trackItemClick = (container, listName) => {
-        container.addEventListener('click', (event) => {
-            const galleryItem = event.target.closest('.gallery-item');
-            if (galleryItem) {
-                const productId = galleryItem.getAttribute('data-id');
-                const productName = galleryItem.getAttribute('data-name');
-                gtag('event', 'select_item', {
-                    'item_id': productId,
-                    'item_name': productName,
-                    'item_list_name': listName
-                });
-            }
-        });
-    };
-
-    trackItemClick(galleryContainer, 'Gallery');
-    trackItemClick(searchResultContainer, 'Search Result');
+    galleryContainer.addEventListener('click', (event) => {
+        const galleryItem = event.target.closest('.gallery-item');
+        if (galleryItem) {
+            const productId = galleryItem.getAttribute('data-id');
+            const productName = galleryItem.getAttribute('data-name');
+            gtag('event', 'select_item', {
+                'item_id': productId,
+                'item_name': productName,
+                'item_list_name': 'Gallery'
+            });
+        }
+    });
 
     productNumberInput.addEventListener('input', () => {
         if (productNumberInput.value.trim() === '') {
             searchResultContainer.innerHTML = '';
             searchResultContainer.classList.add('hidden');
+        }
+    });
+    
+    searchResultContainer.addEventListener('click', (event) => {
+        if (event.target && event.target.classList.contains('link-button')) {
+            const productId = event.target.getAttribute('data-id');
+            const productName = event.target.getAttribute('data-name');
+            gtag('event', 'select_item', {
+                'item_id': productId,
+                'item_name': productName,
+                'item_list_name': 'Search Result'
+            });
         }
     });
 });

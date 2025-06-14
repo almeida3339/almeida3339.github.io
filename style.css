@@ -97,29 +97,64 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 #search-button:hover { background-color: #D94524; }
 
 /* ================================== */
-/* === ESTILOS DO RESULTADO DA BUSCA ATUALIZADOS === */
+/* === ESTILOS DO RESULTADO DA BUSCA CORRIGIDOS === */
 /* ================================== */
 #search-result-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    display: flex; /* MUDADO PARA FLEXBOX */
+    justify-content: center; /* CENTRALIZA OS ITENS */
+    flex-wrap: wrap; /* Permite que quebrem a linha */
+    gap: 20px; /* Espaçamento entre os cards */
     max-width: 1200px;
     margin: 20px auto;
     padding-bottom: 10px;
     animation: fadeIn 0.5s ease;
-    justify-content: center; /* NOVO: Centraliza os itens da grade */
 }
 
 .hidden {
     display: none;
 }
+
+/* Estilo para o card do resultado da busca */
+.product-card-result {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
+    width: 280px; /* Largura fixa para cada card */
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.product-card-result .product-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.product-card-result .link-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #EE4D2D;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+.product-card-result .link-button:hover { background-color: #D94524; }
 .error-message {
     color: #D8000C;
     font-weight: bold;
-    grid-column: 1 / -1;
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-/* ================================== */
 
 /* Galeria de Produtos */
 .gallery-grid {
@@ -215,12 +250,13 @@ footer a:hover {
     #product-number { width: 90%; margin-bottom: 10px; }
     #search-button { width: 90%; }
     
-    #search-result-container,
     .gallery-grid { 
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
         gap: 10px; 
         padding-bottom: 20px;
     }
+    .product-card-result { width: 150px; } /* Faz o card do resultado ter a mesma largura da galeria no mobile */
+    .product-card-result .product-image { height: 150px; }
 
     .gallery-item { border-radius: 8px; }
     .gallery-image { height: 150px; }
