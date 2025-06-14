@@ -10,9 +10,12 @@ body {
     padding: 20px;
 }
 
+/* ================================== */
+/* === AJUSTE 1: LARGURA DO CONTAINER === */
+/* ================================== */
 /* Container Principal (Cabeçalho) */
 .container {
-    max-width: 900px;
+    max-width: 1200px; /* Alterado de 900px para 1200px para alinhar com a galeria */
     margin: 0 auto 30px auto;
     text-align: center;
     background-color: white;
@@ -62,7 +65,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 #search-button:hover { background-color: #E57248; }
 
 /* ================================== */
-/* === NOVOS ESTILOS PARA O RESULTADO DA BUSCA === */
+/* === AJUSTE 2: TAMANHO DO RESULTADO === */
 /* ================================== */
 #search-result-container {
     padding: 20px 0;
@@ -72,7 +75,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     display: none;
 }
 .product-card-result {
-    max-width: 600px; /* Faz o card do resultado ser maior */
+    max-width: 300px; /* Alterado de 600px para 300px para diminuir o card do resultado */
     margin: 0 auto;
     background: #fff8f5;
     border: 1px solid #ffe6d9;
@@ -104,7 +107,6 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     font-weight: bold;
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-/* ================================== */
 
 /* Galeria de Produtos */
 .gallery-grid {
@@ -151,7 +153,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     color: #888;
 }
 
-/* Estilos para telas menores (celulares) */
+/* Estilos para telas menores (celulares) - NENHUMA ALTERAÇÃO AQUI */
 @media (max-width: 768px) {
     body { padding: 10px; }
     .container { padding: 20px; border-radius: 15px; margin-bottom: 20px; }
