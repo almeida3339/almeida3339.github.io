@@ -49,21 +49,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productsToLoad.forEach(key => {
             const product = allProducts[key];
-            const galleryItem = document.createElement('a');
-            galleryItem.className = 'gallery-item';
-            galleryItem.href = product.link;
-            galleryItem.target = '_blank';
-            galleryItem.setAttribute('data-id', key);
-            galleryItem.setAttribute('data-name', product.name);
-            galleryItem.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" class="gallery-image">
-                <div class="gallery-title">${key}. ${product.name}</div>
-            `;
+            const galleryItem = createGalleryItem(key, product);
             galleryContainer.appendChild(galleryItem);
         });
 
         currentPage++;
         isLoading = false;
+    }
+    
+    // --- FUNÇÃO REUTILIZÁVEL PARA CRIAR CARDS ---
+    function createGalleryItem(key, product) {
+        const galleryItem = document.createElement('a');
+        galleryItem.className = 'gallery-item';
+        galleryItem.href = product.link;
+        galleryItem.target = '_blank';
+        galleryItem.setAttribute('data-id', key);
+        galleryItem.setAttribute('data-name', product.name);
+        galleryItem.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" class="gallery-image" loading="lazy" width="280" height="280">
+            <div class="gallery-title">${key}. ${product.name}</div>
+        `;
+        return galleryItem;
     }
 
     // --- FUNÇÃO DE BUSCA ATUALIZADA ---
@@ -71,11 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (keys.length > 0) {
             keys.forEach(key => {
                 const product = allProducts[key];
-                // VOLTAMOS A USAR O 'product-card-result' para ter um estilo separado
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card-result';
                 productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
                     <a href="${product.link}" target="_blank" class="link-button" data-id="${key}" data-name="${product.name}">
                         ${product.name}
                     </a>
@@ -127,35 +132,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    galleryContainer.addEventListener('click', (event) => {
-        const galleryItem = event.target.closest('.gallery-item');
-        if (galleryItem) {
-            const productId = galleryItem.getAttribute('data-id');
-            const productName = galleryItem.getAttribute('data-name');
-            gtag('event', 'select_item', {
-                'item_id': productId,
-                'item_name': productName,
-                'item_list_name': 'Gallery'
-            });
-        }
-    });
+    const trackItemClick = (container, listName) => {
+        container.addEventListener('click', (event) => {
+            const galleryItem = event.target.closest('.gallery-item');
+            if (galleryItem) {
+                const productId = galleryItem.getAttribute('data-id');
+                const productName = galleryItem.getAttribute('data-name');
+                gtag('event', 'select_item', {
+                    'item_id': productId,
+                    'item_name': productName,
+                    'item_list_name': listName
+                });
+            }
+        });
+    };
+
+    trackItemClick(galleryContainer, 'Gallery');
+    trackItemClick(searchResultContainer, 'Search Result');
 
     productNumberInput.addEventListener('input', () => {
         if (productNumberInput.value.trim() === '') {
             searchResultContainer.innerHTML = '';
             searchResultContainer.classList.add('hidden');
-        }
-    });
-    
-    searchResultContainer.addEventListener('click', (event) => {
-        if (event.target && event.target.classList.contains('link-button')) {
-            const productId = event.target.getAttribute('data-id');
-            const productName = event.target.getAttribute('data-name');
-            gtag('event', 'select_item', {
-                'item_id': productId,
-                'item_name': productName,
-                'item_list_name': 'Search Result'
-            });
         }
     });
 });
