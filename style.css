@@ -96,38 +96,40 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 }
 #search-button:hover { background-color: #D94524; }
 
-
 /* ================================== */
-/* === ESTILOS UNIFICADOS PARA GALERIA E RESULTADOS === */
+/* === ESTILOS DO RESULTADO DA BUSCA ATUALIZADOS === */
 /* ================================== */
-#search-result-container,
-.gallery-grid {
+#search-result-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
     max-width: 1200px;
     margin: 20px auto;
     padding-bottom: 10px;
-}
-/* Animação apenas para o resultado da busca */
-#search-result-container {
     animation: fadeIn 0.5s ease;
+    justify-content: center; /* NOVO: Centraliza os itens da grade */
 }
 
 .hidden {
     display: none;
 }
-
-/* Os estilos .product-card-result foram removidos pois agora usamos o .gallery-item */
-
 .error-message {
     color: #D8000C;
     font-weight: bold;
-    grid-column: 1 / -1; /* Faz a mensagem de erro ocupar toda a largura da grade */
+    grid-column: 1 / -1;
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* ================================== */
 
-/* Estilo unificado para todos os cards de produto */
+/* Galeria de Produtos */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding-bottom: 30px;
+}
 .gallery-item {
     background: white;
     border-radius: 12px;
@@ -164,6 +166,42 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     color: #888;
 }
 
+footer {
+    max-width: 1200px;
+    margin: 40px auto 0 auto;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.75em;
+    color: #888;
+    border-top: 1px solid #e0e0e0;
+}
+footer a {
+    color: #555;
+    font-weight: bold;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+.privacy-content {
+    text-align: left;
+    max-width: 800px;
+    margin: 20px auto;
+}
+.privacy-content h2 {
+    margin-top: 30px;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #EE4D2D;
+    text-decoration: none;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
 /* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
     body { padding: 10px; }
@@ -177,7 +215,6 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     #product-number { width: 90%; margin-bottom: 10px; }
     #search-button { width: 90%; }
     
-    /* Regra de grid para celular aplicada a ambos os containers */
     #search-result-container,
     .gallery-grid { 
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
