@@ -11,7 +11,7 @@ body {
 }
 
 /* ======================================================= */
-/* === LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE === */
+/* === LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE (CORRIGIDA) === */
 /* ======================================================= */
 
 /* Por padrão (Desktop), o cabeçalho de DESKTOP é visível */
@@ -54,19 +54,16 @@ h1 { font-size: 1.5em; margin: 0; }
     gap: 15px 25px;
     margin: 15px 0;
 }
-.social-links-compact .social-icon,
-.social-links .social-icon {
-    width: 28px;
-    height: 28px;
-    stroke: #333;
-    transition: stroke 0.2s ease, transform 0.2s ease;
+.social-links a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    font-size: 28px;
 }
-.social-links a:hover .social-icon,
-.social-links-compact a:hover .social-icon {
-    stroke: #EE4D2D;
+.social-links a:hover {
+    color: #EE4D2D;
     transform: scale(1.1);
 }
-
 .coupon-button {
     font-size: 0.9em !important;
     font-weight: bold;
@@ -293,9 +290,16 @@ footer a:hover {
         gap: 10px 20px;
         margin-bottom: 20px;
     }
-    .social-links-compact .coupon-button { font-size: 0.8em !important; padding: 6px 12px; }
-    .social-links-compact a { font-size: 24px; }
-    .social-links-compact .social-icon { width: 24px; height: 24px; }
+    /* Estilos corrigidos para os ícones e botão no mobile */
+    .social-links-compact a {
+        font-size: 24px;
+        color: #333;
+        text-decoration: none;
+    }
+    .social-links-compact .coupon-button {
+        font-size: 0.8em !important;
+        padding: 6px 12px;
+    }
 
     .main-content {
         padding: 20px;
