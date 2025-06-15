@@ -4,42 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cozinha Criativa - Achados da Shopee</title>
-    
     <link rel="canonical" href="https://cozinha-criativpromo.netlify.app/" />
     <meta name="description" content="Encontre os melhores e mais úteis achadinhos da Shopee para sua cozinha. Links e promoções atualizados para deixar sua vida mais fácil e sua casa mais bonita.">
     <meta name="theme-color" content="#EE4D2D"/>
-    
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cozinha-criativpromo.netlify.app/">
     <meta property="og:title" content="Cozinha Criativa - Achados da Shopee">
     <meta property="og:description" content="Os achados mais geniais para sua cozinha estão aqui. Explore a galeria ou busque pelo número do seu achado favorito!">
     <meta property="og:image" content="https://cozinha-criativpromo.netlify.app/perfil.jpg">
-    
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://cozinha-criativpromo.netlify.app/">
     <meta property="twitter:title" content="Cozinha Criativa - Achados da Shopee">
     <meta property="twitter:description" content="Os achados mais geniais para sua cozinha estão aqui. Explore a galeria ou busque pelo número do seu achado favorito!">
     <meta property="twitter:image" content="https://cozinha-criativpromo.netlify.app/perfil.jpg">
-    
     <link rel="icon" type="image/jpeg" href="perfil.jpg">
     <link rel="apple-touch-icon" href="perfil.jpg">
     <link rel="manifest" href="manifest.json">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"></noscript>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v3.0.0-beta.1/dist/cookieconsent.css" />
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VC716PNSD2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-VC716PNSD2');
-    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -51,71 +37,60 @@
     </script>
 </head>
 <body>
-
-    <div class="container desktop-header">
-        <img src="perfil.jpg" alt="Achados de Cozinha" class="profile-pic">
-        <h1>@cozinha.criativpromo</h1>
-        <div class="social-links">
-            <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" aria-label="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" aria-label="TikTok">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
-            <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" class="coupon-button">
-                Cupons Diários<br>Shopee
-            </a>
-        </div>
-    </div>
     
-    <div class="hero-banner mobile-header">
-        <img src="perfil.jpg" alt="Foto de perfil Cozinha Criativa" class="hero-profile-pic">
-        <div class="hero-text">
-            <h1>Cozinha Criativa</h1>
-            <p>Encontre gadgets de cozinha testados (+20)</p>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></symbol>
+        <symbol id="icon-tiktok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 1.4 3.3 3.4 3.3 5.6 0 3.8-3 6.8-6.8 6.8C12.7 20 9 17.1 9 13.2c0-3.7 2.9-6.8 6.7-6.8 0 0 .5 0 .5.1.4 0 .8.1 1.2.2V4z"></path></symbol>
+    </svg>
+
+    <header>
+        <div class="container desktop-header">
+            <img src="perfil.jpg" alt="Achados de Cozinha" class="profile-pic">
+            <h1>@cozinha.criativpromo</h1>
+            <div class="social-links">
+                <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon"><use href="#icon-instagram"></use></svg></a>
+                <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon"><use href="#icon-tiktok"></use></svg></a>
+                <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">Cupons Diários<br>Shopee</a>
+            </div>
         </div>
-    </div>
-    <div class="social-links-compact mobile-header">
-        <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" aria-label="TikTok">
-            <i class="fa-brands fa-tiktok"></i>
-        </a>
-        <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" class="coupon-button">
-            Cupons Diários<br>Shopee
-        </a>
-    </div>
-
-    <div class="main-content">
-        <p class="search-prompt">Digite o nome ou número do achado ou explore a galeria!</p>
-        <div class="search-box">
-            <input type="text" id="product-number" placeholder="Digite aqui.." aria-label="Campo de busca por nome ou número do produto">
-            <button id="search-button" aria-label="Buscar produto">Buscar</button>
+        <div class="hero-banner mobile-header">
+            <img src="perfil.jpg" alt="Foto de perfil Cozinha Criativa" class="hero-profile-pic">
+            <div class="hero-text">
+                <h1>Cozinha Criativa</h1>
+                <p>Encontre gadgets de cozinha testados (+20)</p>
+            </div>
         </div>
-        <div id="search-result-container" class="hidden"></div>
-    </div>
+        <div class="social-links-compact mobile-header">
+            <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon"><use href="#icon-instagram"></use></svg></a>
+            <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon"><use href="#icon-tiktok"></use></svg></a>
+            <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">Cupons Diários<br>Shopee</a>
+        </div>
+    </header>
 
-    <div id="gallery-container" class="gallery-grid"></div>
+    <main>
+        <div class="main-content">
+            <p class="disclaimer">Este site contém links de afiliado – podemos receber comissão.</p>
+            <p class="search-prompt">Digite o nome ou número do achado ou explore a galeria!</p>
+            <div class="search-box">
+                <input type="text" id="product-number" placeholder="Digite aqui.." aria-label="Campo de busca por nome ou número do produto">
+                <button id="search-button" aria-label="Buscar produto">Buscar</button>
+            </div>
+            <div id="search-result-container" class="hidden"></div>
+        </div>
+        <div id="gallery-container" class="gallery-grid"></div>
+        <div id="loader">Carregando mais...</div>
+    </main>
     
-    <div id="loader">Carregando mais...</div>
-    
-    <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v3.0.0-beta.1/dist/cookieconsent.umd.js"></script>
-    <script src="script.js"></script>
-
     <footer>
-        <p>Este site contém links de afiliado – podemos receber comissão.</p>
-        <p>Ao navegar neste site, você concorda com nossa <a href="politica-de-privacidade.html" target="_blank">Política de Privacidade</a>.</p>
+        <p>Ao navegar neste site, você concorda com nossa <a href="politica-de-privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v3.0.0-beta.1/dist/cookieconsent.umd.js"></script>
+    <script src="script.js"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').then(registration => {
-            console.log('ServiceWorker registrado com sucesso: ', registration.scope);
-          }).catch(error => {
-            console.log('Falha no registro do ServiceWorker: ', error);
-          });
+          navigator.serviceWorker.register('/sw.js').then(r => console.log('ServiceWorker registrado!'), e => console.log('Falha no registro do ServiceWorker: ', e));
         });
       }
     </script>
