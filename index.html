@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cozinha Criativa - Achados da Shopee</title>
     
+    <link rel="canonical" href="https://cozinha-criativpromo.netlify.app/" />
     <meta name="description" content="Encontre os melhores e mais úteis achadinhos da Shopee para sua cozinha. Links e promoções atualizados para deixar sua vida mais fácil e sua casa mais bonita.">
     <meta name="theme-color" content="#EE4D2D"/>
     <meta property="og:type" content="website">
@@ -41,11 +42,9 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container desktop-header">
         <img src="perfil.jpg" alt="Achados de Cozinha" class="profile-pic">
         <h1>@cozinha.criativpromo</h1>
-
-        <p class="disclaimer">Este site contém links de afiliado – podemos receber comissão.</p>
 
         <div class="social-links">
             <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" aria-label="Instagram">
@@ -58,14 +57,34 @@
                 Cupons Diários<br>Shopee
             </a>
         </div>
+    </div>
+    
+    <div class="hero-banner mobile-header">
+        <img src="perfil.jpg" alt="Foto de perfil Cozinha Criativa" class="hero-profile-pic">
+        <div class="hero-text">
+            <h1>Cozinha Criativa</h1>
+            <p>Encontre gadgets de cozinha testados (+20)</p>
+        </div>
+    </div>
+    <div class="social-links-compact mobile-header">
+        <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" aria-label="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" class="coupon-button">
+            Cupons Diários<br>Shopee
+        </a>
+    </div>
 
+    <div class="main-content">
+        <p class="disclaimer">Este site contém links de afiliado – podemos receber comissão.</p>
         <p>Digite o nome ou número do achado ou explore a galeria!</p>
-
         <div class="search-box">
             <input type="text" id="product-number" placeholder="Digite aqui.." aria-label="Campo de busca por nome ou número do produto">
             <button id="search-button" aria-label="Buscar produto">Buscar</button>
         </div>
-
         <div id="search-result-container" class="hidden"></div>
     </div>
 

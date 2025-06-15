@@ -10,8 +10,8 @@ body {
     padding: 20px;
 }
 
-/* Container Principal (Cabeçalho) */
-.container {
+/* Container Principal (Cabeçalho Desktop) */
+.container.desktop-header {
     max-width: 1200px;
     margin: 0 auto 30px auto;
     text-align: center;
@@ -36,7 +36,8 @@ h1 { font-size: 1.5em; margin: 0; }
 .disclaimer {
     font-size: 0.75em;
     color: #999;
-    margin: -5px 0 15px 0;
+    margin: -5px auto 15px auto;
+    max-width: 1200px;
 }
 
 .social-links {
@@ -73,7 +74,18 @@ h1 { font-size: 1.5em; margin: 0; }
     color: white !important;
 }
 
-p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
+/* Conteúdo Principal (depois do header/hero) */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.main-content p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
 /* Caixa de Busca */
 .search-box {
@@ -108,9 +120,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding-bottom: 10px;
+    margin-top: 20px;
     animation: fadeIn 0.5s ease;
 }
 .hidden {
@@ -204,7 +214,6 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     color: #888;
 }
 
-/* Rodapé e Página de Privacidade */
 footer {
     max-width: 1200px;
     margin: 40px auto 0 auto;
@@ -241,15 +250,63 @@ footer a:hover {
     text-decoration: underline;
 }
 
+/* Estilos para o Hero Compacto (Mobile) */
+.hero-banner {
+    display: none; /* Escondido por padrão no desktop */
+}
+
+.social-links-compact {
+    display: none; /* Escondido por padrão no desktop */
+}
+
+
 /* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
     body { padding: 10px; }
-    .container { padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-    .profile-pic { width: 80px; height: 80px; margin-bottom: 10px; }
-    h1 { font-size: 1.2em; }
-    .social-links a { font-size: 24px; }
-    .coupon-button { font-size: 0.8em !important; padding: 6px 12px; }
-    p { font-size: 0.9em; margin-bottom: 20px; }
+
+    .desktop-header { display: none; } /* Esconde o header de desktop */
+
+    .hero-banner {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .hero-profile-pic {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 2px solid #fff;
+    }
+    .hero-text {
+        text-align: left;
+    }
+    .hero-text h1 { font-size: 1.1em; margin: 0 0 4px 0; }
+    .hero-text p { font-size: 0.8em; color: #6c757d; margin: 0; }
+
+    .social-links-compact {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px 20px;
+        margin-bottom: 20px;
+    }
+    .social-links-compact .coupon-button { font-size: 0.8em !important; padding: 6px 12px; }
+    .social-links-compact a { font-size: 24px; }
+
+    .main-content {
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+    .main-content p { font-size: 0.9em; margin-bottom: 20px; }
+    
     .search-box { flex-direction: column; align-items: center; }
     #product-number { width: 90%; margin-bottom: 10px; }
     #search-button { width: 90%; }
