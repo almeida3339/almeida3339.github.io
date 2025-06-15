@@ -350,3 +350,12 @@ footer a:hover {
     margin-bottom: 20px !important;
   }
 }
+
+/* ===== FINAL OVERRIDE 2025‑06‑15 ===== */
+@media (max-width: 768px) {
+  .search-prompt {
+    font-size: 18px;          /* ponto de partida antes do JS ajustar */
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

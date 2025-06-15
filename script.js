@@ -248,3 +248,21 @@ document.addEventListener('DOMContentLoaded', () => {
     trackItemClick(galleryContainer, 'Gallery');
     trackItemClick(searchResultContainer, 'Search Result');
 });
+/* === Auto-fit search prompt to one line on mobile === */
+function fitSearchPrompt() {
+  const prompt = document.querySelector('.search-prompt');
+  if (!prompt) return;
+  // Only run on screens up to 768px
+  if (window.innerWidth > 768) return;
+
+  let size = parseFloat(window.getComputedStyle(prompt).fontSize);
+  const minSize = 10; // px
+  // reset to default before fitting
+  prompt.style.fontSize = size + 'px';
+  while (prompt.scrollWidth > prompt.clientWidth && size > minSize) {
+    size -= 0.5;
+    prompt.style.fontSize = size + 'px';
+  }
+}
+window.addEventListener('load', fitSearchPrompt, { once: true });
+window.addEventListener('resize', fitSearchPrompt);
