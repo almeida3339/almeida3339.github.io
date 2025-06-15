@@ -48,7 +48,7 @@ h1 {
     margin-top: 5px;
 }
 
-/* Links Sociais e Botões - CÓDIGO ORIGINAL RESTAURADO */
+/* Links Sociais e Botões */
 .social-links {
     display: flex;
     justify-content: center;
@@ -57,14 +57,16 @@ h1 {
     gap: 15px 25px;
     margin: 15px 0;
 }
+
+/* CORREÇÃO: Usar 'fill' para colorir os ícones preenchidos */
 .social-links .social-icon, .social-links-compact .social-icon {
     width: 28px;
     height: 28px;
-    stroke: #111;
-    transition: stroke .2s ease,transform .2s ease;
+    fill: #111;
+    transition: fill .2s ease,transform .2s ease;
 }
 .social-links a:hover .social-icon, .social-links-compact a:hover .social-icon {
-    stroke: #D33618;
+    fill: #D33618;
     transform: scale(1.1);
 }
 
@@ -250,8 +252,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 @media (max-width: 768px) {
     body { padding: 10px; }
 
-    /* ESTA É A ÚNICA CORREÇÃO NECESSÁRIA */
-    .container.desktop-header { display: none; } 
+    /* Correção do layout para esconder cabeçalho do desktop */
+    .container.desktop-header { display: none; }
     .hero-banner, .social-links-compact { display: flex; }
 
     .hero-banner {
