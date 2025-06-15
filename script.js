@@ -1,39 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elementos da página
+    // ... (todo o código anterior permanece o mesmo até a função displaySearchResults) ...
+    // ... (I will show only the changed function to keep the response concise) ...
     const searchButton = document.getElementById('search-button');
     const productNumberInput = document.getElementById('product-number');
     const galleryContainer = document.getElementById('gallery-container');
     const loader = document.getElementById('loader');
     const searchResultContainer = document.getElementById('search-result-container');
 
-    // Variáveis de estado
     let allProducts = {};
     let productKeys = [];
     let currentPage = 0;
     const productsPerPage = 12;
     let isLoading = false;
 
-    // --- FUNÇÃO DE LIMPEZA DE EMOJI (ACESSIBILIDADE) ---
     function getCleanAltText(text) {
         if (!text) return '';
         const emojiRegex = /[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26ff]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff]/g;
         return text.replace(emojiRegex, '').trim();
     }
     
-    // --- CARREGAMENTO INICIAL DOS DADOS ---
     fetch('products.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro de rede ao carregar products.json');
-            }
-            return response.json();
-        })
+        .then(response => response.ok ? response.json() : Promise.reject('Erro de rede'))
         .then(data => {
             allProducts = data;
             productKeys = Object.keys(allProducts).reverse();
             loadMoreProducts();
             
-            // Inicia o observador APÓS os primeiros produtos serem carregados
             if (loader) {
                 const observer = new IntersectionObserver(handleIntersection, { rootMargin: '100px' });
                 observer.observe(loader);
@@ -44,40 +36,30 @@ document.addEventListener('DOMContentLoaded', () => {
             galleryContainer.innerHTML = "<p class='error-message'>Não foi possível carregar os produtos. Verifique o arquivo products.json.</p>";
         });
 
-    // --- LÓGICA DO INTERSECTION OBSERVER ---
-    function handleIntersection(entries, observer) {
+    function handleIntersection(entries) {
         const firstEntry = entries[0];
-        // a 'isIntersecting' é a propriedade chave que nos diz se o elemento está na tela
         if (firstEntry.isIntersecting && !isLoading) {
             console.log("Loader está visível, carregando mais produtos...");
             loadMoreProducts();
         }
     }
 
-    // --- FUNÇÕES DA GALERIA ---
     function loadMoreProducts() {
         if (isLoading) return;
-        
         const startIndex = currentPage * productsPerPage;
-        
-        // Se o startIndex for maior ou igual ao total de produtos, não há mais nada a carregar.
         if (startIndex >= productKeys.length) {
             loader.textContent = "Fim dos resultados :)";
             return;
         }
-
         isLoading = true;
         loader.classList.remove('hidden');
-
         const endIndex = startIndex + productsPerPage;
         const productsToLoad = productKeys.slice(startIndex, endIndex);
-
         productsToLoad.forEach(key => {
             const product = allProducts[key];
             const galleryItem = createGalleryItem(key, product);
             galleryContainer.appendChild(galleryItem);
         });
-
         currentPage++;
         isLoading = false;
     }
@@ -89,9 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         galleryItem.target = '_blank';
         galleryItem.setAttribute('data-id', key);
         galleryItem.setAttribute('data-name', product.name);
-        
         const cleanAltText = getCleanAltText(product.name);
-        
         galleryItem.innerHTML = `
             <img src="${product.image}" alt="${cleanAltText}" class="gallery-image" loading="lazy" width="280" height="280">
             <div class="gallery-title">${key}. ${product.name}</div>
@@ -99,19 +79,51 @@ document.addEventListener('DOMContentLoaded', () => {
         return galleryItem;
     }
 
-    // --- FUNÇÃO DE BUSCA ---
+    // ======================================================
+    // === FUNÇÃO DE BUSCA COM DADOS ESTRUTURADOS DINÂMICOS ===
     function displaySearchResults(keys) {
-        searchResultContainer.innerHTML = ''; // Limpa antes de adicionar novos
+        // Limpa o structured data antigo antes de adicionar um novo
+        const oldSchema = document.getElementById('product-schema');
+        if (oldSchema) {
+            oldSchema.remove();
+        }
+
         if (keys.length > 0) {
+            // Foca no primeiro resultado para o structured data
+            const firstKey = keys[0];
+            const product = allProducts[firstKey];
+            const cleanName = getCleanAltText(product.name);
+            
+            // Cria a "etiqueta" de dados estruturados para o produto
+            const schemaScript = document.createElement('script');
+            schemaScript.type = 'application/ld+json';
+            schemaScript.id = 'product-schema'; // ID para fácil remoção
+            schemaScript.text = JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": cleanName,
+                "image": `https://cozinha-criativpromo.netlify.app/${product.image}`, // URL Absoluta da imagem
+                "description": `Achado de cozinha: ${cleanName}`,
+                "sku": firstKey,
+                "offers": {
+                    "@type": "Offer",
+                    "url": product.link,
+                    "availability": "https://schema.org/InStock"
+                }
+            });
+            document.head.appendChild(schemaScript);
+
+
+            // Monta os cards visuais para todos os resultados
             keys.forEach(key => {
-                const product = allProducts[key];
-                const cleanAltText = getCleanAltText(product.name);
+                const currentProduct = allProducts[key];
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card-result';
+                const cleanAltText = getCleanAltText(currentProduct.name);
                 productCard.innerHTML = `
-                    <img src="${product.image}" alt="${cleanAltText}" class="product-image" loading="lazy">
-                    <a href="${product.link}" target="_blank" class="link-button" data-id="${key}" data-name="${product.name}">
-                        ${product.name}
+                    <img src="${currentProduct.image}" alt="${cleanAltText}" class="product-image" loading="lazy">
+                    <a href="${currentProduct.link}" target="_blank" class="link-button" data-id="${key}" data-name="${currentProduct.name}">
+                        ${currentProduct.name}
                     </a>
                 `;
                 searchResultContainer.appendChild(productCard);
@@ -122,15 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
             searchResultContainer.classList.remove('hidden');
         }
     }
+    // ======================================================
 
     function performSearch() {
         const searchTerm = productNumberInput.value.trim().toLowerCase();
+        searchResultContainer.innerHTML = '';
         searchResultContainer.classList.add('hidden');
 
-        if (!searchTerm) {
-            searchResultContainer.innerHTML = '';
-            return;
-        }
+        if (!searchTerm) return;
 
         let matchingKeys = [];
         const cleanNumber = searchTerm.replace('#', '');
@@ -157,11 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
         container.addEventListener('click', (event) => {
             const item = event.target.closest('.gallery-item, .product-card-result');
             if (item) {
-                const linkButton = item.querySelector('.link-button');
-                const targetElement = linkButton || item;
-
-                const productId = targetElement.getAttribute('data-id');
-                const productName = targetElement.getAttribute('data-name');
+                const link = item.querySelector('.link-button') || item;
+                const productId = link.getAttribute('data-id');
+                const productName = link.getAttribute('data-name');
                 if (productId && productName) {
                     gtag('event', 'select_item', {
                         'item_id': productId,
@@ -180,6 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (productNumberInput.value.trim() === '') {
             searchResultContainer.innerHTML = '';
             searchResultContainer.classList.add('hidden');
+             // Limpa o structured data antigo quando a busca é limpa
+            const oldSchema = document.getElementById('product-schema');
+            if (oldSchema) {
+                oldSchema.remove();
+            }
         }
     });
 });
