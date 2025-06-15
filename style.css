@@ -359,3 +359,12 @@ footer a:hover {
     overflow: hidden;
   }
 }
+
+/* ===== OVERRIDE 2025‑06‑15 v6 ===== */
+@media (max-width: 768px) {
+  .search-prompt {
+    font-size: clamp(0.8rem, 3.5vw, 1rem) !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+  }
+}
