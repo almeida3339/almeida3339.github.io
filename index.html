@@ -46,13 +46,14 @@
     </script>
 </head>
 <body>
+    <a href="#main" class="skip-link">Pular para o conteúdo</a>
     
     <!-- Ícones SVG atualizados para versões preenchidas e corretas -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="icon-instagram" viewBox="0 0 24 24">
+        <symbol id="icon-instagram" viewBox="0 0 24 24" focusable="false">
             <path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
         </symbol>
-        <symbol id="icon-tiktok" viewBox="0 0 24 24">
+        <symbol id="icon-tiktok" viewBox="0 0 24 24" focusable="false">
     <path d="M16.5 1c.3 2 1.7 3.6 3.5 4v3.1c-1.4 0-2.8-.4-4-1.2v7.6c0 4.1-3.4 7.5-7.5 7.5S1 18.6 1 14.5 4.4 7 8.5 7c.5 0 1 .1 1.5.2V11c-.5-.2-1-.3-1.5-.3-1.9 0-3.5 1.6-3.5 3.5S6.6 18 8.5 18s3.5-1.6 3.5-3.5V1h4.5z"/>
 </symbol>
     </svg>
@@ -63,8 +64,8 @@
         <p class="sub-headline">Achados testados & aprovados</p>
         <div class="social-links">
             <!-- Chamada simplificada para o CSS controlar o estilo -->
-            <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon"><use href="#icon-instagram"></use></svg></a>
-            <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon"><use href="#icon-tiktok"></use></svg></a>
+            <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon" aria-hidden="true"><use href="#icon-instagram" aria-hidden="true"></use></svg></a>
+            <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon" aria-hidden="true"><use href="#icon-tiktok" aria-hidden="true"></use></svg></a>
             <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">Cupons Diários<br>Shopee</a>
         </div>
     </header>
@@ -77,12 +78,12 @@
         </div>
     </header>
     <div class="social-links-compact mobile-header">
-        <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon"><use href="#icon-instagram"></use></svg></a>
-        <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon"><use href="#icon-tiktok"></use></svg></a>
+        <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon" aria-hidden="true"><use href="#icon-instagram" aria-hidden="true"></use></svg></a>
+        <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon" aria-hidden="true"><use href="#icon-tiktok" aria-hidden="true"></use></svg></a>
         <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">Cupons Diários<br>Shopee</a>
     </div>
 
-    <main class="main-content">
+    <main id="main" class="main-content">
         <p class="search-prompt">Digite o nome ou número do achado ou explore a galeria!</p>
         <div class="search-box">
             <input type="text" id="product-number" placeholder="Digite aqui.." aria-label="Campo de busca por nome ou número do produto">
@@ -91,9 +92,9 @@
         <div id="search-result-container" class="hidden" aria-live="polite"></div>
     </main>
 
-    <section id="gallery-container" class="gallery-grid" aria-label="Galeria de Produtos"></section>
+    <ul id="gallery-container" class="gallery-grid" aria-label="Galeria de Produtos"></ul>
     
-    <div id="loader">Carregando mais...</div>
+    <button id="loader" class="load-more" type="button">Carregar mais</button>
     
     <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v3.0.0-beta.1/dist/cookieconsent.umd.js"></script>
     <script src="script.js"></script>

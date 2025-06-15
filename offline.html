@@ -11,13 +11,17 @@
         p { color: #666; }
         button { padding: 12px 24px; font-weight: bold; color: white; background-color: #EE4D2D; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s ease; margin-top: 20px; }
         button:hover { background-color: #D94524; }
+    
+        .skip-link { position:absolute; left:-999px; top:10px; background:#0049CE; color:#fff; padding:8px 16px; border-radius:4px; z-index:1000; }
+        .skip-link:focus { left:10px; }
     </style>
 </head>
 <body>
-    <div class="offline-container">
+    <a href="#main" class="skip-link">Pular para o conteúdo</a>
+    <main id="main" role="main"><div class="offline-container">
         <h1>Ops! Você está offline.</h1>
         <p>Parece que não há conexão com a internet. Verifique sua rede e tente novamente.</p>
         <button onclick="window.location.reload()">Tentar Novamente</button>
-    </div>
+    </div></main>
 </body>
 </html>
