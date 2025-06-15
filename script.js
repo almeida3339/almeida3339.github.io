@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lógica do Cookie Consent Banner (LGPD)
     function initGoogleAnalytics() {
+        // Verifica se a função gtag já existe para não reinicializar
+        if (typeof gtag === 'function') return;
+
         const gaScript = document.createElement('script');
         gaScript.async = true;
         gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-VC716PNSD2';
@@ -14,45 +17,48 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Cookie consent aceito. Google Analytics inicializado.");
     }
 
-    CookieConsent.run({
-        guiOptions: {
-            consentModal: { layout: "box", position: "bottom left" },
-            preferencesModal: { layout: "box", position: "right" }
-        },
-        categories: {
-            necessary: { readOnly: true },
-            analytics: { autoClear: { cookies: [{ name: /^_ga/ }] } }
-        },
-        language: {
-            default: "pt",
-            translations: {
-                pt: {
-                    consentModal: {
-                        title: "Este site usa cookies",
-                        description: "Nós usamos cookies e tecnologias de análise para entender melhor nosso público e otimizar nosso conteúdo. Ao aceitar, você nos ajuda a criar uma experiência melhor.",
-                        acceptAllBtn: "Aceitar todos",
-                        acceptNecessaryBtn: "Rejeitar todos",
-                        showPreferencesBtn: "Gerenciar preferências",
-                        footer: "<a href=\"/politica-de-privacidade.html\">Política de Privacidade</a>"
-                    },
-                    preferencesModal: {
-                        title: "Preferências de Consentimento",
-                        acceptAllBtn: "Aceitar todos",
-                        acceptNecessaryBtn: "Rejeitar todos",
-                        savePreferencesBtn: "Salvar preferências",
-                        closeIconLabel: "Fechar modal",
-                        sections: [
-                            { title: "Uso de Cookies", description: "Utilizamos cookies para garantir a funcionalidade básica do website e para melhorar a sua experiência online." },
-                            { title: "Cookies de Análise (Google Analytics) <span class=\"pm__badge\">Opcional</span>", description: "Estes cookies coletam informações sobre como você usa o nosso site. Todos os dados são anonimizados e não podem ser usados para identificá-lo.", linkedCategory: "analytics" },
-                            { title: "Mais informações", description: "Para qualquer dúvida, por favor <a class=\"cc__link\" href=\"/politica-de-privacidade.html\">leia nossa política de privacidade</a>." }
-                        ]
+    if (typeof CookieConsent !== 'undefined') {
+        CookieConsent.run({
+            guiOptions: {
+                consentModal: { layout: "box", position: "bottom left" },
+                preferencesModal: { layout: "box", position: "right" }
+            },
+            categories: {
+                necessary: { readOnly: true },
+                analytics: { autoClear: { cookies: [{ name: /^_ga/ }] } }
+            },
+            language: {
+                default: "pt",
+                translations: {
+                    pt: {
+                        consentModal: {
+                            title: "Este site usa cookies",
+                            description: "Nós usamos cookies e tecnologias de análise para entender melhor nosso público e otimizar nosso conteúdo. Ao aceitar, você nos ajuda a criar uma experiência melhor.",
+                            acceptAllBtn: "Aceitar todos",
+                            acceptNecessaryBtn: "Rejeitar todos",
+                            showPreferencesBtn: "Gerenciar preferências",
+                            footer: "<a href=\"/politica-de-privacidade.html\">Política de Privacidade</a>"
+                        },
+                        preferencesModal: {
+                            title: "Preferências de Consentimento",
+                            acceptAllBtn: "Aceitar todos",
+                            acceptNecessaryBtn: "Rejeitar todos",
+                            savePreferencesBtn: "Salvar preferências",
+                            closeIconLabel: "Fechar modal",
+                            sections: [
+                                { title: "Uso de Cookies", description: "Utilizamos cookies para garantir a funcionalidade básica do website e para melhorar a sua experiência online." },
+                                { title: "Cookies de Análise (Google Analytics) <span class=\"pm__badge\">Opcional</span>", description: "Estes cookies coletam informações sobre como você usa o nosso site. Todos os dados são anonimizados e não podem ser usados para identificá-lo.", linkedCategory: "analytics" },
+                                { title: "Mais informações", description: "Para qualquer dúvida, por favor <a class=\"cc__link\" href=\"/politica-de-privacidade.html\">leia nossa política de privacidade</a>." }
+                            ]
+                        }
                     }
                 }
-            }
-        },
-        onAccept: (cookie) => { if(cookie.categories.includes('analytics')) initGoogleAnalytics(); },
-        onChange: (cookie) => { if(cookie.categories.includes('analytics')) initGoogleAnalytics(); }
-    });
+            },
+            onAccept: (cookie) => { if(cookie.categories.includes('analytics')) initGoogleAnalytics(); },
+            onChange: (cookie) => { if(cookie.categories.includes('analytics')) initGoogleAnalytics(); }
+        });
+    }
+
 
     // --- Lógica Principal da Página ---
     const searchButton = document.getElementById('search-button');
@@ -71,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "@type": "ItemList",
         "itemListElement": []
     };
+    let observer; // Declara o observer no escopo mais alto
 
     function getCleanAltText(text) {
         if (!text) return '';
@@ -107,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productKeys = Object.keys(allProducts).reverse();
             loadMoreProducts();
             if (loader) {
-                const observer = new IntersectionObserver(handleIntersection, { rootMargin: '200px' });
+                observer = new IntersectionObserver(handleIntersection, { rootMargin: '200px' });
                 observer.observe(loader);
             }
         })
