@@ -30,7 +30,6 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"></noscript>
     
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v3.0.0-beta.1/dist/cookieconsent.css" />
     
     <script type="application/ld+json">
@@ -44,20 +43,15 @@
     </script>
 </head>
 <body>
-
+    
     <header class="container desktop-header">
         <img src="perfil.jpg" alt="Achados de Cozinha" class="profile-pic">
         <h1>@cozinha.criativpromo</h1>
+        <p class="sub-headline">Achados testados & aprovados</p>
         <div class="social-links">
-            <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
-            <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">
-                Cupons Diários<br>Shopee
-            </a>
+            <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon"><use href="#icon-instagram"></use></svg></a>
+            <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon"><use href="#icon-tiktok"></use></svg></a>
+            <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">Cupons Diários<br>Shopee</a>
         </div>
     </header>
     
@@ -69,15 +63,9 @@
         </div>
     </header>
     <div class="social-links-compact mobile-header">
-        <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-            <i class="fa-brands fa-tiktok"></i>
-        </a>
-        <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">
-            Cupons Diários<br>Shopee
-        </a>
+        <a href="https://www.instagram.com/cozinha.criativpromo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="social-icon"><use href="#icon-instagram"></use></svg></a>
+        <a href="https://www.tiktok.com/@cozinha.criativpromo" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg class="social-icon"><use href="#icon-tiktok"></use></svg></a>
+        <a href="https://s.shopee.com.br/gEJaPNzjO" target="_blank" rel="noopener noreferrer" class="coupon-button">Cupons Diários<br>Shopee</a>
     </div>
 
     <main class="main-content">
@@ -86,7 +74,7 @@
             <input type="text" id="product-number" placeholder="Digite aqui.." aria-label="Campo de busca por nome ou número do produto">
             <button id="search-button" aria-label="Buscar produto">Buscar</button>
         </div>
-        <div id="search-result-container" class="hidden"></div>
+        <div id="search-result-container" class="hidden" aria-live="polite"></div>
     </main>
 
     <section id="gallery-container" class="gallery-grid" aria-label="Galeria de Produtos"></section>
@@ -97,7 +85,7 @@
     <script src="script.js"></script>
 
     <footer>
-        <p>Este site contém links de afiliado – podemos receber comissão.</p>
+        <p>Este site contém links de afiliado. Podemos receber comissão em compras qualificadas.</p>
         <p>Ao navegar neste site, você concorda com nossa <a href="politica-de-privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</p>
     </footer>
 
