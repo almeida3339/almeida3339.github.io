@@ -10,18 +10,9 @@ body {
     padding: 20px;
 }
 
-/* ======================================================= */
-/* === LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE === */
-/* ======================================================= */
-
-/* Por padrão (Desktop), o cabeçalho de DESKTOP é visível */
-.container.desktop-header {
-    display: block;
-}
-/* E o hero de CELULAR fica escondido */
-.hero-banner, .social-links-compact {
-    display: none;
-}
+/* LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE */
+.container.desktop-header { display: block; }
+.hero-banner, .social-links-compact { display: none; }
 
 
 /* Container Principal (Cabeçalho Desktop) */
@@ -93,11 +84,7 @@ h1 { font-size: 1.5em; margin: 0; }
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.main-content .disclaimer {
-    font-size: 0.75em;
-    color: #999;
-    margin: -15px 0 15px 0;
-}
+/* A classe .disclaimer foi removida pois o texto agora está no rodapé */
 
 .main-content p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
@@ -238,6 +225,7 @@ footer {
 }
 footer p {
     margin: 5px 0;
+    line-height: 1.5;
 }
 footer a {
     color: #555;
@@ -248,19 +236,12 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* ======================================================= */
-/* === REGRAS PARA TELAS MENORES (CELULARES) === */
-/* ======================================================= */
+/* REGRAS PARA TELAS MENORES (CELULARES) */
 @media (max-width: 768px) {
     body { padding: 10px; }
 
-    /* Esconde o cabeçalho de desktop e mostra o de mobile */
-    .container.desktop-header {
-        display: none;
-    }
-    .hero-banner, .social-links-compact {
-        display: flex;
-    }
+    .desktop-header { display: none; }
+    .hero-banner, .social-links-compact { display: flex; }
 
     .hero-banner {
         align-items: center;
@@ -278,9 +259,7 @@ footer a:hover {
         margin-right: 15px;
         border: 2px solid #fff;
     }
-    .hero-text {
-        text-align: left;
-    }
+    .hero-text { text-align: left; }
     .hero-text h1 { font-size: 1.1em; margin: 0 0 4px 0; }
     .hero-text p { font-size: 0.8em; color: #6c757d; margin: 0; }
 
@@ -293,14 +272,18 @@ footer a:hover {
     }
     .social-links-compact .coupon-button { font-size: 0.8em !important; padding: 6px 12px; }
     .social-links-compact a { font-size: 24px; }
-    .social-links-compact .social-icon { width: 24px; height: 24px; }
-
+    
     .main-content {
         padding: 20px;
         border-radius: 15px;
         margin-bottom: 20px;
     }
-    .main-content p { font-size: 0.9em; margin-bottom: 20px; }
+    
+    /* Ajuste para a frase de busca caber em uma linha no celular */
+    .main-content .search-prompt { 
+        font-size: 0.85em; 
+        margin-bottom: 20px;
+    }
     
     .search-box { flex-direction: column; align-items: center; }
     #product-number { width: 90%; margin-bottom: 10px; }
