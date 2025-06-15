@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded",()=>{function e(){if("function"==ty
 
     li.appendChild(a);
     return li;
+}
 function $(e){o.innerHTML="";let t=document.getElementById("product-schema-search");if(t&&t.remove(),e.length>0){let a=e[0],n=r[a],i=m(n.name),s=document.createElement("script");s.type="application/ld+json",s.id="product-schema-search",s.text=JSON.stringify({"@context":"https://schema.org","@type":"Product",name:i,image:`https://cozinha-criativpromo.netlify.app/${n.image}`,description:`Achado de cozinha: ${i}`,sku:a,offers:{"@type":"Offer",url:n.link,availability:"https://schema.org/InStock"}}),document.head.appendChild(s),e.forEach(e=>{let t=r[e],a=document.createElement("div");a.className="product-card-result";let n=m(t.name);a.innerHTML=`
                     <img src="${t.image}" alt="${n}" class="product-image" loading="lazy" decoding="async">
                     <a href="${t.link}" target="_blank" rel="noopener noreferrer" class="link-button" data-id="${e}" data-name="${t.name}">${t.name}</a>
