@@ -1,0 +1,23 @@
+{
+  "name": "Achados de Cozinha Criativa",
+  "short_name": "Cozinha Criativa",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#EE4D2D",
+  "description": "Os melhores achadinhos da Shopee para sua cozinha, selecionados para você.",
+  "icons": [
+    {
+      "src": "perfil.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "perfil.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

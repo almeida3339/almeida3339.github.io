@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Cozinha Criativa - Achados da Shopee</title>
     <meta name="description" content="Encontre os melhores e mais úteis achadinhos da Shopee para sua cozinha. Links e promoções atualizados para deixar sua vida mais fácil e sua casa mais bonita.">
-    
+    <meta name="theme-color" content="#EE4D2D"/>
+
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cozinha-criativpromo.netlify.app/">
     <meta property="og:title" content="Cozinha Criativa - Achados da Shopee">
@@ -21,11 +23,11 @@
     <link rel="icon" type="image/jpeg" href="perfil.jpg">
     <link rel="apple-touch-icon" href="perfil.jpg">
     
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <link rel="stylesheet" href="style.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VC716PNSD2"></script>
@@ -33,20 +35,9 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-VC716PNSD2');
     </script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "Achados de Cozinha - Catálogo de Produtos",
-      "description": "Uma coleção de produtos e achados de cozinha selecionados da Shopee.",
-      "url": "https://cozinha-criativpromo.netlify.app/"
-    }
-    </script>
-    </head>
+</head>
 <body>
 
     <div class="container">
@@ -75,17 +66,24 @@
         <div id="search-result-container" class="hidden"></div>
     </div>
 
-    <div id="gallery-container" class="gallery-grid">
-        </div>
-    
+    <div id="gallery-container" class="gallery-grid"></div>
     <div id="loader">Carregando mais...</div>
-
-
     <script src="script.js"></script>
 
     <footer>
         <p>Este site contém links de afiliado. Podemos receber comissão em compras qualificadas. <a href="politica-de-privacidade.html" target="_blank">Política de Privacidade</a>.</p>
     </footer>
 
-</body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('ServiceWorker registrado com sucesso: ', registration.scope);
+          }).catch(error => {
+            console.log('Falha no registro do ServiceWorker: ', error);
+          });
+        });
+      }
+    </script>
+    </body>
 </html>
