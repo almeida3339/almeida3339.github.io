@@ -1,4 +1,3 @@
-
 /* Importa uma fonte moderna do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
@@ -23,6 +22,7 @@ body {
 .hero-banner, .social-links-compact {
     display: none;
 }
+
 
 /* Container Principal (Cabeçalho Desktop) */
 .container.desktop-header {
@@ -93,12 +93,7 @@ h1 { font-size: 1.5em; margin: 0; }
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.main-content p {
-    font-size: 1em;
-    margin-top: 5px;
-    margin-bottom: 30px;
-    color: #666;
-}
+.main-content p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
 /* Caixa de Busca */
 .search-box {
@@ -254,6 +249,7 @@ footer a:hover {
 @media (max-width: 768px) {
     body { padding: 10px; }
 
+    /* Esconde o cabeçalho de desktop e mostra o de mobile */
     .container.desktop-header {
         display: none;
     }
@@ -292,35 +288,27 @@ footer a:hover {
     }
     .social-links-compact .coupon-button { font-size: 0.8em !important; padding: 6px 12px; }
     .social-links-compact a { font-size: 24px; }
-
+    
     .main-content {
         padding: 20px;
         border-radius: 15px;
         margin-bottom: 20px;
     }
-
-    /* Ajuste FINAL: frase em uma linha */
-    .search-prompt {
-        font-size: clamp(0.6rem, 3vw, 0.85rem);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    
+    /* Ajuste para a frase de busca caber em uma linha no celular */
+    .main-content p.search-prompt { 
+        font-size: 0.85em; 
         margin-bottom: 20px;
+        padding: 0 10px; /* Adiciona um pequeno respiro nas laterais */
     }
-
+    
     .search-box { flex-direction: column; align-items: center; }
-    #product-number {
-        width: 90%;
-        margin-bottom: 10px;
-    }
-    #search-button {
-        width: 90%;
-    }
-
-    #search-result-container,
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
+    #product-number { width: 90%; margin-bottom: 10px; }
+    #search-button { width: 90%; }
+    
+    #search-result-container, .gallery-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+        gap: 10px; 
         padding-bottom: 20px;
     }
     .product-card-result { width: 150px; }
@@ -331,39 +319,10 @@ footer a:hover {
     .gallery-title { padding: 10px; font-size: 0.8em; }
     footer { font-size: 0.7em; }
 }
-
-/* ===== OVERRIDE 2025-06-15 ===== */
+/* ===== OVERRIDE 2025‑06‑15 v7 ===== */
 @media (max-width: 768px) {
   .search-prompt {
-    font-size: clamp(0.5rem, 2.6vw, 0.8rem); /* reduz ainda mais se precisar */
-    white-space: nowrap; /* força 1 linha */
-    overflow: visible;   /* permite mostrar 100% */
-  }
-}
-
-/* ===== OVERRIDE 2025-06-15 v4 ===== */
-@media (max-width: 768px) {
-  .search-prompt {
-    font-size: 2.2vw !important;  /* escala com a largura da tela */
-    white-space: nowrap !important;
-    overflow: visible !important;
-    margin-bottom: 20px !important;
-  }
-}
-
-/* ===== FINAL OVERRIDE 2025‑06‑15 ===== */
-@media (max-width: 768px) {
-  .search-prompt {
-    font-size: 18px;          /* ponto de partida antes do JS ajustar */
-    white-space: nowrap;
-    overflow: hidden;
-  }
-}
-
-/* ===== OVERRIDE 2025‑06‑15 v6 ===== */
-@media (max-width: 768px) {
-  .search-prompt {
-    font-size: clamp(0.8rem, 3.5vw, 1rem) !important;
+    font-size: clamp(0.95rem, 4vw, 1.15rem) !important; /* ~15-18 px */
     white-space: nowrap !important;
     overflow: visible !important;
   }
