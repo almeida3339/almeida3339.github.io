@@ -32,8 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
             allProducts = data;
             productKeys = Object.keys(allProducts).reverse();
             loadMoreProducts();
+            
             // Inicia o observador APÓS os primeiros produtos serem carregados
             if (loader) {
+                const observer = new IntersectionObserver(handleIntersection, { rootMargin: '100px' });
                 observer.observe(loader);
             }
         })
@@ -42,15 +44,25 @@ document.addEventListener('DOMContentLoaded', () => {
             galleryContainer.innerHTML = "<p class='error-message'>Não foi possível carregar os produtos. Verifique o arquivo products.json.</p>";
         });
 
+    // --- LÓGICA DO INTERSECTION OBSERVER ---
+    function handleIntersection(entries, observer) {
+        const firstEntry = entries[0];
+        // a 'isIntersecting' é a propriedade chave que nos diz se o elemento está na tela
+        if (firstEntry.isIntersecting && !isLoading) {
+            console.log("Loader está visível, carregando mais produtos...");
+            loadMoreProducts();
+        }
+    }
+
     // --- FUNÇÕES DA GALERIA ---
     function loadMoreProducts() {
         if (isLoading) return;
         
         const startIndex = currentPage * productsPerPage;
-        // Verifica se ainda há produtos para carregar
+        
+        // Se o startIndex for maior ou igual ao total de produtos, não há mais nada a carregar.
         if (startIndex >= productKeys.length) {
             loader.textContent = "Fim dos resultados :)";
-            observer.unobserve(loader); // Para de observar quando não há mais itens
             return;
         }
 
@@ -68,13 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentPage++;
         isLoading = false;
-        // Esconde o loader após o carregamento, a menos que seja o fim
-        if (startIndex + productsPerPage < productKeys.length) {
-             loader.classList.add('hidden');
-        } else {
-             loader.textContent = "Fim dos resultados :)";
-             observer.unobserve(loader);
-        }
     }
     
     function createGalleryItem(key, product) {
@@ -96,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNÇÃO DE BUSCA ---
     function displaySearchResults(keys) {
+        searchResultContainer.innerHTML = ''; // Limpa antes de adicionar novos
         if (keys.length > 0) {
             keys.forEach(key => {
                 const product = allProducts[key];
@@ -119,10 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function performSearch() {
         const searchTerm = productNumberInput.value.trim().toLowerCase();
-        searchResultContainer.innerHTML = '';
         searchResultContainer.classList.add('hidden');
 
-        if (!searchTerm) return;
+        if (!searchTerm) {
+            searchResultContainer.innerHTML = '';
+            return;
+        }
 
         let matchingKeys = [];
         const cleanNumber = searchTerm.replace('#', '');
@@ -138,21 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- EVENT LISTENERS ---
-
-    // ==================================================================
-    // === NOVA LÓGICA DE SCROLL INFINITO COM INTERSECTION OBSERVER ===
-    // O antigo listener de 'scroll' foi removido.
-    const observer = new IntersectionObserver((entries) => {
-        const firstEntry = entries[0];
-        if (firstEntry.isIntersecting) {
-            loadMoreProducts();
-        }
-    }, { 
-        rootMargin: '200px' // Começa a carregar 200px ANTES do elemento aparecer na tela
-    });
-    // ==================================================================
-
-
     searchButton.addEventListener('click', performSearch);
     productNumberInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
@@ -164,14 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
         container.addEventListener('click', (event) => {
             const item = event.target.closest('.gallery-item, .product-card-result');
             if (item) {
-                const link = item.querySelector('.link-button') || item;
-                const productId = link.getAttribute('data-id');
-                const productName = link.getAttribute('data-name');
-                gtag('event', 'select_item', {
-                    'item_id': productId,
-                    'item_name': productName,
-                    'item_list_name': listName
-                });
+                const linkButton = item.querySelector('.link-button');
+                const targetElement = linkButton || item;
+
+                const productId = targetElement.getAttribute('data-id');
+                const productName = targetElement.getAttribute('data-name');
+                if (productId && productName) {
+                    gtag('event', 'select_item', {
+                        'item_id': productId,
+                        'item_name': productName,
+                        'item_list_name': listName
+                    });
+                }
             }
         });
     };
