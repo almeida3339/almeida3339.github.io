@@ -429,3 +429,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
         font-size: 0.8em;
     }
 }
+
+
+/* === Hotfix 2025‑06‑15: restore coupon button size on desktop === */
+.social-links a.coupon-button,
+.social-links-compact a.coupon-button,
+.coupon-button {
+    width: auto !important;
+    height: auto !important;
+    display: inline-block !important;
+    padding: 8px 16px !important; /* keep comfortable tap target */
+}
