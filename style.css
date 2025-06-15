@@ -1,3 +1,6 @@
+/* Importa uma fonte moderna do Google Fonts */
+/* A linha @import foi removida daqui e movida para o HTML para otimização */
+
 /* Estilos Gerais */
 body {
     font-family: 'Inter', sans-serif;
@@ -5,13 +8,17 @@ body {
     color: #333;
     margin: 0;
     padding: 20px;
-    line-height: 1.6;
 }
 
-/* LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE */
+/* ======================================================= */
+/* === LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE (CORRIGIDA) === */
+/* ======================================================= */
+
+/* Por padrão (Desktop), o cabeçalho de DESKTOP é visível */
 .container.desktop-header {
     display: block;
 }
+/* E o hero de CELULAR fica escondido */
 .hero-banner, .social-links-compact {
     display: none;
 }
@@ -38,15 +45,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-h1 { 
-    font-size: 2.25em; 
-    margin: 0; 
-}
-.sub-headline {
-    font-size: 1.1em;
-    color: #666;
-    margin-top: 5px;
-}
+h1 { font-size: 1.5em; margin: 0; }
 
 .social-links {
     display: flex;
@@ -63,14 +62,14 @@ h1 {
     font-size: 28px;
 }
 .social-links a:hover {
-    color: #D33618;
+    color: #EE4D2D;
     transform: scale(1.1);
 }
 .coupon-button {
     font-size: 0.9em !important;
     font-weight: bold;
     color: white !important;
-    background-color: #D33618;
+    background-color: #EE4D2D;
     padding: 8px 16px;
     border-radius: 20px;
     transition: background-color 0.2s ease, transform 0.2s ease;
@@ -79,11 +78,11 @@ h1 {
     text-decoration: none;
 }
 .coupon-button:hover {
-    background-color: #B82E14;
+    background-color: #D94524;
     color: white !important;
 }
 
-/* Conteúdo Principal */
+/* Conteúdo Principal (depois do header/hero) */
 .main-content {
     max-width: 1200px;
     margin: 0 auto 30px auto;
@@ -121,15 +120,15 @@ h1 {
     font-size: 1em;
     font-weight: bold;
     color: white;
-    background-color: #D33618;
+    background-color: #EE4D2D;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
-#search-button:hover { background-color: #B82E14; }
+#search-button:hover { background-color: #D94524; }
 
-/* Resultado da Busca */
+/* Estilos para o Resultado da Busca */
 #search-result-container {
     display: flex;
     justify-content: center;
@@ -138,8 +137,15 @@ h1 {
     margin-top: 20px;
     animation: fadeIn 0.5s ease;
 }
-.hidden { display: none; }
+.hidden {
+    display: none;
+}
 .product-card-result {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
     width: 280px;
     padding: 15px;
     box-sizing: border-box;
@@ -151,23 +157,30 @@ h1 {
     width: 100%;
     height: 280px;
     object-fit: cover;
+    border-radius: 8px;
     margin-bottom: 10px;
 }
 .product-card-result .link-button {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    background-color: #D33618;
+    background-color: #EE4D2D;
     color: white;
     padding: 15px;
+    border-radius: 10px;
     text-decoration: none;
     font-weight: bold;
     font-size: 1.1em;
     transition: background-color 0.2s ease;
     text-align: center;
 }
-.product-card-result .link-button:hover { background-color: #B82E14; }
-.error-message { color: #D8000C; font-weight: bold; width: 100%; text-align: center; }
+.product-card-result .link-button:hover { background-color: #D94524; }
+.error-message {
+    color: #D8000C;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* Galeria de Produtos */
@@ -179,22 +192,21 @@ h1 {
     margin: 20px auto;
     padding-bottom: 30px;
 }
-.gallery-item, .product-card-result {
+.gallery-item {
     background: white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
     color: inherit;
+    display: flex;
+    flex-direction: column;
 }
-.gallery-item:hover, .product-card-result:hover {
+.gallery-item:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0,0,0,.12);
-}
-.gallery-image, .product-card-result .product-image {
-    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 .gallery-image {
     width: 100%;
@@ -236,18 +248,19 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Anéis de Foco para Acessibilidade */
-a:focus-visible, button:focus-visible, input:focus-visible {
-    outline: 3px solid #0049CE;
-    outline-offset: 2px;
-}
-
-/* REGRAS PARA TELAS MENORES (CELULARES) */
+/* ======================================================= */
+/* === REGRAS PARA TELAS MENORES (CELULARES) === */
+/* ======================================================= */
 @media (max-width: 768px) {
     body { padding: 10px; }
 
-    .desktop-header { display: none; }
-    .hero-banner, .social-links-compact { display: flex; }
+    /* Esconde o cabeçalho de desktop e mostra o de mobile */
+    .container.desktop-header {
+        display: none;
+    }
+    .hero-banner, .social-links-compact {
+        display: flex;
+    }
 
     .hero-banner {
         align-items: center;
@@ -265,8 +278,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
         margin-right: 15px;
         border: 2px solid #fff;
     }
-    .hero-text { text-align: left; }
-    .hero-text h2 { font-size: 1.1em; margin: 0 0 4px 0; }
+    .hero-text {
+        text-align: left;
+    }
+    .hero-text h1 { font-size: 1.1em; margin: 0 0 4px 0; }
     .hero-text p { font-size: 0.8em; color: #6c757d; margin: 0; }
 
     .social-links-compact {
@@ -277,14 +292,16 @@ a:focus-visible, button:focus-visible, input:focus-visible {
         margin-bottom: 20px;
     }
     .social-links-compact .coupon-button { font-size: 0.8em !important; padding: 6px 12px; }
-    .social-links-compact a { font-size: 24px; text-decoration: none; }
+    .social-links-compact a { font-size: 24px; }
     
     .main-content {
         padding: 20px;
         border-radius: 15px;
         margin-bottom: 20px;
     }
-    .main-content .search-prompt { 
+    
+    /* Ajuste para a frase de busca caber em uma linha no celular */
+    .main-content p.search-prompt { 
         font-size: 0.85em; 
         margin-bottom: 20px;
         padding: 0 10px;
@@ -301,7 +318,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     }
     .product-card-result { width: 150px; }
     .product-card-result .product-image { height: 150px; }
-    .gallery-item .gallery-image { height: 150px; }
+
+    .gallery-item { border-radius: 8px; }
+    .gallery-image { height: 150px; }
     .gallery-title { padding: 10px; font-size: 0.8em; }
     footer { font-size: 0.7em; }
 }
