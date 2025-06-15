@@ -10,10 +10,7 @@ body {
     padding: 20px;
 }
 
-/* ======================================================= */
-/* === LÓGICA DE EXIBIÇÃO CORRIGIDA === */
-/* ======================================================= */
-
+/* LÓGICA DE EXIBIÇÃO CORRIGIDA */
 /* Por padrão (Desktop), o cabeçalho de DESKTOP é visível */
 .container.desktop-header {
     display: block;
@@ -22,7 +19,6 @@ body {
 .hero-banner, .social-links-compact {
     display: none;
 }
-
 
 /* Container Principal (Cabeçalho Desktop) */
 .container.desktop-header {
@@ -92,11 +88,7 @@ h1 { font-size: 1.5em; margin: 0; }
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.main-content .disclaimer {
-    font-size: 0.75em;
-    color: #999;
-    margin: -15px 0 15px 0;
-}
+/* A classe .disclaimer foi removida daqui */
 
 .main-content p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
@@ -127,6 +119,7 @@ h1 { font-size: 1.5em; margin: 0; }
 }
 #search-button:hover { background-color: #D94524; }
 
+/* Estilos para o Resultado da Busca */
 #search-result-container {
     display: flex;
     justify-content: center;
@@ -234,6 +227,10 @@ footer {
     color: #888;
     border-top: 1px solid #e0e0e0;
 }
+footer p {
+    margin: 5px 0; /* Ajusta a margem para parágrafos no rodapé */
+    line-height: 1.5;
+}
 footer a {
     color: #555;
     font-weight: bold;
@@ -243,14 +240,29 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* ======================================================= */
-/* === REGRAS PARA TELAS MENORES (CELULARES) === */
-/* ======================================================= */
+.privacy-content {
+    text-align: left;
+    max-width: 800px;
+    margin: 20px auto;
+}
+.privacy-content h2 {
+    margin-top: 30px;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #EE4D2D;
+    text-decoration: none;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     body { padding: 10px; }
-
-    /* Esconde o cabeçalho de desktop e mostra o de mobile */
-    .container.desktop-header {
+    
+    .desktop-header {
         display: none;
     }
     .hero-banner, .social-links-compact {
