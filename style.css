@@ -11,7 +11,7 @@ body {
 }
 
 /* ======================================================= */
-/* === LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE (CORRIGIDA) === */
+/* === LÓGICA DE EXIBIÇÃO PARA DESKTOP E MOBILE === */
 /* ======================================================= */
 
 /* Por padrão (Desktop), o cabeçalho de DESKTOP é visível */
@@ -22,6 +22,7 @@ body {
 .hero-banner, .social-links-compact {
     display: none;
 }
+
 
 /* Container Principal (Cabeçalho Desktop) */
 .container.desktop-header {
@@ -290,16 +291,9 @@ footer a:hover {
         gap: 10px 20px;
         margin-bottom: 20px;
     }
-    /* Estilos corrigidos para os ícones e botão no mobile */
-    .social-links-compact a {
-        font-size: 24px;
-        color: #333;
-        text-decoration: none;
-    }
-    .social-links-compact .coupon-button {
-        font-size: 0.8em !important;
-        padding: 6px 12px;
-    }
+    .social-links-compact .coupon-button { font-size: 0.8em !important; padding: 6px 12px; }
+    .social-links-compact a { font-size: 24px; }
+    .social-links-compact .social-icon { width: 24px; height: 24px; }
 
     .main-content {
         padding: 20px;
