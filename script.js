@@ -1,6 +1,110 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ... (todo o código anterior permanece o mesmo até a função displaySearchResults) ...
-    // ... (I will show only the changed function to keep the response concise) ...
+
+    // ======================================================
+    // === LÓGICA DO COOKIE CONSENT BANNER (LGPD) ===
+    // ======================================================
+    
+    // Função que inicializa o Google Analytics
+    function initGoogleAnalytics() {
+        // Adiciona o script do Google Analytics à página
+        const gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-VC716PNSD2';
+        document.head.appendChild(gaScript);
+
+        // Prepara a função gtag
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VC716PNSD2');
+        
+        // Disponibiliza a função gtag globalmente para ser usada depois
+        window.gtag = gtag;
+        console.log("Cookie consent aceito. Google Analytics inicializado.");
+    }
+
+    // Inicializa a biblioteca do Cookie Consent
+    CookieConsent.run({
+        guiOptions: {
+            consentModal: {
+                layout: "box",
+                position: "bottom left",
+                equalWeightButtons: true,
+                flipButtons: false
+            },
+            preferencesModal: {
+                layout: "box",
+                position: "right",
+                equalWeightButtons: true,
+                flipButtons: false
+            }
+        },
+        categories: {
+            necessary: {
+                readOnly: true
+            },
+            analytics: {
+                autoClear: {
+                    cookies: [
+                        { name: /^_ga/ }
+                    ]
+                }
+            }
+        },
+        language: {
+            default: "pt",
+            translations: {
+                pt: {
+                    consentModal: {
+                        title: "Este site usa cookies",
+                        description: "Nós usamos cookies e tecnologias de análise (Google Analytics) para entender melhor nosso público e otimizar nosso conteúdo. Ao aceitar, você nos ajuda a criar uma experiência melhor.",
+                        acceptAllBtn: "Aceitar todos",
+                        acceptNecessaryBtn: "Rejeitar todos",
+                        showPreferencesBtn: "Gerenciar preferências",
+                        footer: "<a href=\"/politica-de-privacidade.html\">Política de Privacidade</a>"
+                    },
+                    preferencesModal: {
+                        title: "Preferências de Consentimento",
+                        acceptAllBtn: "Aceitar todos",
+                        acceptNecessaryBtn: "Rejeitar todos",
+                        savePreferencesBtn: "Salvar preferências",
+                        closeIconLabel: "Fechar modal",
+                        serviceCounterLabel: "Serviço|Serviços",
+                        sections: [
+                            {
+                                title: "Uso de Cookies",
+                                description: "Utilizamos cookies para garantir a funcionalidade básica do website e para melhorar a sua experiência online."
+                            },
+                            {
+                                title: "Cookies de Análise (Google Analytics) <span class=\"pm__badge\">Opcional</span>",
+                                description: "Estes cookies coletam informações sobre como você usa o nosso site, quais páginas visitou e em quais links clicou. Todos os dados são anonimizados e não podem ser usados para identificá-lo.",
+                                linkedCategory: "analytics"
+                            },
+                            {
+                                title: "Mais informações",
+                                description: "Para qualquer dúvida em relação à nossa política de cookies e às suas escolhas, por favor <a class=\"cc__link\" href=\"/politica-de-privacidade.html\">leia nossa política de privacidade</a>."
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+
+        // Só roda o Google Analytics se a categoria 'analytics' for aceita
+        onAccept: (cookie) => {
+            if(cookie.categories.includes('analytics')){
+                initGoogleAnalytics();
+            }
+        },
+        onChange: (cookie) => {
+             if(cookie.categories.includes('analytics')){
+                initGoogleAnalytics();
+            }
+        }
+    });
+
+
+    // --- O RESTO DO SEU CÓDIGO ---
     const searchButton = document.getElementById('search-button');
     const productNumberInput = document.getElementById('product-number');
     const galleryContainer = document.getElementById('gallery-container');
@@ -25,24 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
             allProducts = data;
             productKeys = Object.keys(allProducts).reverse();
             loadMoreProducts();
-            
-            if (loader) {
-                const observer = new IntersectionObserver(handleIntersection, { rootMargin: '100px' });
-                observer.observe(loader);
-            }
         })
         .catch(error => {
             console.error('Erro ao carregar ou processar o arquivo de produtos:', error);
-            galleryContainer.innerHTML = "<p class='error-message'>Não foi possível carregar os produtos. Verifique o arquivo products.json.</p>";
+            galleryContainer.innerHTML = "<p class='error-message'>Não foi possível carregar os produtos.</p>";
         });
-
-    function handleIntersection(entries) {
-        const firstEntry = entries[0];
-        if (firstEntry.isIntersecting && !isLoading) {
-            console.log("Loader está visível, carregando mais produtos...");
-            loadMoreProducts();
-        }
-    }
 
     function loadMoreProducts() {
         if (isLoading) return;
@@ -62,6 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         currentPage++;
         isLoading = false;
+        if (currentPage * productsPerPage >= productKeys.length) {
+            loader.textContent = "Fim dos resultados :)";
+        } else {
+            loader.classList.add('hidden');
+        }
     }
     
     function createGalleryItem(key, product) {
@@ -79,42 +175,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return galleryItem;
     }
 
-    // ======================================================
-    // === FUNÇÃO DE BUSCA COM DADOS ESTRUTURADOS DINÂMICOS ===
     function displaySearchResults(keys) {
-        // Limpa o structured data antigo antes de adicionar um novo
+        searchResultContainer.innerHTML = '';
         const oldSchema = document.getElementById('product-schema');
-        if (oldSchema) {
-            oldSchema.remove();
-        }
+        if (oldSchema) oldSchema.remove();
 
         if (keys.length > 0) {
-            // Foca no primeiro resultado para o structured data
             const firstKey = keys[0];
             const product = allProducts[firstKey];
             const cleanName = getCleanAltText(product.name);
-            
-            // Cria a "etiqueta" de dados estruturados para o produto
             const schemaScript = document.createElement('script');
             schemaScript.type = 'application/ld+json';
-            schemaScript.id = 'product-schema'; // ID para fácil remoção
+            schemaScript.id = 'product-schema';
             schemaScript.text = JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Product",
                 "name": cleanName,
-                "image": `https://cozinha-criativpromo.netlify.app/${product.image}`, // URL Absoluta da imagem
+                "image": `https://cozinha-criativpromo.netlify.app/${product.image}`,
                 "description": `Achado de cozinha: ${cleanName}`,
                 "sku": firstKey,
-                "offers": {
-                    "@type": "Offer",
-                    "url": product.link,
-                    "availability": "https://schema.org/InStock"
-                }
+                "offers": { "@type": "Offer", "url": product.link, "availability": "https://schema.org/InStock" }
             });
             document.head.appendChild(schemaScript);
 
-
-            // Monta os cards visuais para todos os resultados
             keys.forEach(key => {
                 const currentProduct = allProducts[key];
                 const productCard = document.createElement('div');
@@ -122,45 +205,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cleanAltText = getCleanAltText(currentProduct.name);
                 productCard.innerHTML = `
                     <img src="${currentProduct.image}" alt="${cleanAltText}" class="product-image" loading="lazy">
-                    <a href="${currentProduct.link}" target="_blank" class="link-button" data-id="${key}" data-name="${currentProduct.name}">
-                        ${currentProduct.name}
-                    </a>
+                    <a href="${currentProduct.link}" target="_blank" class="link-button" data-id="${key}" data-name="${currentProduct.name}">${currentProduct.name}</a>
                 `;
                 searchResultContainer.appendChild(productCard);
             });
             searchResultContainer.classList.remove('hidden');
         } else {
-            searchResultContainer.innerHTML = `<p class="error-message">Nenhum produto encontrado para "${productNumberInput.value}".</p>`;
+            searchResultContainer.innerHTML = `<p class="error-message">Nenhum produto encontrado.</p>`;
             searchResultContainer.classList.remove('hidden');
         }
     }
-    // ======================================================
 
     function performSearch() {
         const searchTerm = productNumberInput.value.trim().toLowerCase();
-        searchResultContainer.innerHTML = '';
         searchResultContainer.classList.add('hidden');
-
-        if (!searchTerm) return;
-
+        if (!searchTerm) {
+            searchResultContainer.innerHTML = '';
+            return;
+        }
         let matchingKeys = [];
         const cleanNumber = searchTerm.replace('#', '');
         if (allProducts[cleanNumber]) {
             matchingKeys.push(cleanNumber);
         } else {
-            matchingKeys = productKeys.filter(key => 
-                allProducts[key].name.toLowerCase().includes(searchTerm)
-            );
+            matchingKeys = productKeys.filter(key => allProducts[key].name.toLowerCase().includes(searchTerm));
         }
         displaySearchResults(matchingKeys);
-        gtag('event', 'search', { 'search_term': searchTerm });
+        if (typeof gtag === 'function') gtag('event', 'search', { 'search_term': searchTerm });
     }
 
-    // --- EVENT LISTENERS ---
     searchButton.addEventListener('click', performSearch);
-    productNumberInput.addEventListener('keyup', (event) => {
-        if (event.key === 'Enter') {
-            performSearch();
+    productNumberInput.addEventListener('keyup', (event) => { if (event.key === 'Enter') performSearch(); });
+    productNumberInput.addEventListener('input', () => {
+        if (productNumberInput.value.trim() === '') {
+            searchResultContainer.innerHTML = '';
+            searchResultContainer.classList.add('hidden');
+            const oldSchema = document.getElementById('product-schema');
+            if (oldSchema) oldSchema.remove();
         }
     });
 
@@ -171,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const link = item.querySelector('.link-button') || item;
                 const productId = link.getAttribute('data-id');
                 const productName = link.getAttribute('data-name');
-                if (productId && productName) {
+                if (productId && productName && typeof gtag === 'function') {
                     gtag('event', 'select_item', {
                         'item_id': productId,
                         'item_name': productName,
@@ -181,19 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-
     trackItemClick(galleryContainer, 'Gallery');
     trackItemClick(searchResultContainer, 'Search Result');
-
-    productNumberInput.addEventListener('input', () => {
-        if (productNumberInput.value.trim() === '') {
-            searchResultContainer.innerHTML = '';
-            searchResultContainer.classList.add('hidden');
-             // Limpa o structured data antigo quando a busca é limpa
-            const oldSchema = document.getElementById('product-schema');
-            if (oldSchema) {
-                oldSchema.remove();
-            }
-        }
-    });
 });
