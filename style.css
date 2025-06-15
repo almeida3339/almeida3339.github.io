@@ -11,13 +11,18 @@ body {
 }
 
 /* ======================================================= */
-/* === AJUSTES DE LAYOUT PARA DESKTOP E MOBILE === */
+/* === LÓGICA DE EXIBIÇÃO CORRIGIDA === */
 /* ======================================================= */
 
-/* Por padrão, o hero de celular fica escondido */
+/* Por padrão (Desktop), o cabeçalho de DESKTOP é visível */
+.container.desktop-header {
+    display: block;
+}
+/* E o hero de CELULAR fica escondido */
 .hero-banner, .social-links-compact {
     display: none;
 }
+
 
 /* Container Principal (Cabeçalho Desktop) */
 .container.desktop-header {
@@ -41,12 +46,6 @@ body {
 }
 
 h1 { font-size: 1.5em; margin: 0; }
-
-.disclaimer {
-    font-size: 0.75em;
-    color: #999;
-    margin: 10px 0 15px 0;
-}
 
 .social-links {
     display: flex;
@@ -82,6 +81,23 @@ h1 { font-size: 1.5em; margin: 0; }
     color: white !important;
 }
 
+/* Conteúdo Principal (depois do header/hero) */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.main-content .disclaimer {
+    font-size: 0.75em;
+    color: #999;
+    margin: -15px 0 15px 0;
+}
+
 .main-content p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
 /* Caixa de Busca */
@@ -111,16 +127,70 @@ h1 { font-size: 1.5em; margin: 0; }
 }
 #search-button:hover { background-color: #D94524; }
 
-/* Galeria de Produtos e outros estilos... */
-#search-result-container, .gallery-grid {
+#search-result-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease;
+}
+.hidden {
+    display: none;
+}
+.product-card-result {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
+    width: 280px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.product-card-result .product-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.product-card-result .link-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #EE4D2D;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+.product-card-result .link-button:hover { background-color: #D94524; }
+.error-message {
+    color: #D8000C;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Galeria de Produtos */
+.gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
     max-width: 1200px;
     margin: 20px auto;
-    padding-bottom: 10px;
+    padding-bottom: 30px;
 }
-.gallery-item, .product-card-result { /* Estilo unificado para os cards */
+.gallery-item {
     background: white;
     border-radius: 12px;
     overflow: hidden;
@@ -132,27 +202,46 @@ h1 { font-size: 1.5em; margin: 0; }
     display: flex;
     flex-direction: column;
 }
-.gallery-item:hover, .product-card-result:hover {
+.gallery-item:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
-.gallery-image, .product-card-result .product-image {
+.gallery-image {
     width: 100%;
     height: 280px;
     object-fit: cover;
 }
-.gallery-title, .product-card-result .product-name {
+.gallery-title {
     padding: 15px;
     font-weight: bold;
     text-align: center;
     font-size: 0.9em;
 }
-.hidden { display: none; }
-#loader { text-align: center; padding: 20px; font-size: 1.2em; color: #888; }
-footer { max-width: 1200px; margin: 40px auto 0 auto; text-align: center; padding: 20px; font-size: 0.75em; color: #888; border-top: 1px solid #e0e0e0; }
-footer a { color: #555; font-weight: bold; text-decoration: none; }
-footer a:hover { text-decoration: underline; }
 
+#loader {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #888;
+}
+
+footer {
+    max-width: 1200px;
+    margin: 40px auto 0 auto;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.75em;
+    color: #888;
+    border-top: 1px solid #e0e0e0;
+}
+footer a {
+    color: #555;
+    font-weight: bold;
+    text-decoration: none;
+}
+footer a:hover {
+    text-decoration: underline;
+}
 
 /* ======================================================= */
 /* === REGRAS PARA TELAS MENORES (CELULARES) === */
