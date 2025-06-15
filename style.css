@@ -10,7 +10,10 @@ body {
     padding: 20px;
 }
 
-/* LÓGICA DE EXIBIÇÃO CORRIGIDA */
+/* ======================================================= */
+/* === LÓGICA DE EXIBIÇÃO CORRIGIDA === */
+/* ======================================================= */
+
 /* Por padrão (Desktop), o cabeçalho de DESKTOP é visível */
 .container.desktop-header {
     display: block;
@@ -19,6 +22,7 @@ body {
 .hero-banner, .social-links-compact {
     display: none;
 }
+
 
 /* Container Principal (Cabeçalho Desktop) */
 .container.desktop-header {
@@ -42,6 +46,12 @@ body {
 }
 
 h1 { font-size: 1.5em; margin: 0; }
+
+.disclaimer {
+    font-size: 0.75em;
+    color: #999;
+    margin: 10px 0 15px 0;
+}
 
 .social-links {
     display: flex;
@@ -87,8 +97,6 @@ h1 { font-size: 1.5em; margin: 0; }
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
-
-/* A classe .disclaimer foi removida daqui */
 
 .main-content p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 
@@ -228,8 +236,7 @@ footer {
     border-top: 1px solid #e0e0e0;
 }
 footer p {
-    margin: 5px 0; /* Ajusta a margem para parágrafos no rodapé */
-    line-height: 1.5;
+    margin: 5px 0;
 }
 footer a {
     color: #555;
@@ -240,29 +247,14 @@ footer a:hover {
     text-decoration: underline;
 }
 
-.privacy-content {
-    text-align: left;
-    max-width: 800px;
-    margin: 20px auto;
-}
-.privacy-content h2 {
-    margin-top: 30px;
-}
-.back-link {
-    display: inline-block;
-    margin-top: 30px;
-    font-weight: bold;
-    color: #EE4D2D;
-    text-decoration: none;
-}
-.back-link:hover {
-    text-decoration: underline;
-}
-
+/* ======================================================= */
+/* === REGRAS PARA TELAS MENORES (CELULARES) === */
+/* ======================================================= */
 @media (max-width: 768px) {
     body { padding: 10px; }
-    
-    .desktop-header {
+
+    /* Esconde o cabeçalho de desktop e mostra o de mobile */
+    .container.desktop-header {
         display: none;
     }
     .hero-banner, .social-links-compact {
@@ -305,8 +297,6 @@ footer a:hover {
         padding: 20px;
         border-radius: 15px;
         margin-bottom: 20px;
-        background-color: white;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
     .main-content p { font-size: 0.9em; margin-bottom: 20px; }
     
