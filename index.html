@@ -14,7 +14,6 @@
     <meta property="og:title" content="Cozinha Criativa - Achados da Shopee">
     <meta property="og:description" content="Os achados mais geniais para sua cozinha estão aqui. Explore a galeria ou busque pelo número do seu achado favorito!">
     <meta property="og:image" content="https://cozinha-criativpromo.netlify.app/perfil.jpg">
-    
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://cozinha-criativpromo.netlify.app/">
     <meta property="twitter:title" content="Cozinha Criativa - Achados da Shopee">
@@ -54,7 +53,7 @@
         <symbol id="icon-tiktok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 4s-.7 2.1-2 3.4c1.6 1.4 3.3 3.4 3.3 5.6 0 3.8-3 6.8-6.8 6.8C12.7 20 9 17.1 9 13.2c0-3.7 2.9-6.8 6.7-6.8 0 0 .5 0 .5.1.4 0 .8.1 1.2.2V4z"></path>
         </symbol>
-    </svg>
+        </svg>
 
     <header class="container desktop-header">
         <img src="perfil.jpg" alt="Achados de Cozinha" class="profile-pic">
@@ -103,11 +102,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').then(registration => {
-            console.log('ServiceWorker registrado com sucesso: ', registration.scope);
-          }).catch(error => {
-            console.log('Falha no registro do ServiceWorker: ', error);
-          });
+          navigator.serviceWorker.register('/sw.js').then(r => console.log('ServiceWorker registrado!'), e => console.log('Falha no registro do ServiceWorker: ', e));
         });
       }
     </script>
