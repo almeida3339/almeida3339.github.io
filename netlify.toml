@@ -8,6 +8,7 @@
   # Nome do pacote do plugin
   package = "@netlify/plugin-sitemap"
 
+  # As opções do plugin devem vir logo abaixo, aninhadas.
   [plugins.options]
     # URL base do seu site para gerar os links corretos no sitemap
     baseUrl = "https://cozinha-criativpromo.netlify.app"
