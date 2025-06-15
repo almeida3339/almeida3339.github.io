@@ -96,32 +96,27 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 }
 #search-button:hover { background-color: #D94524; }
 
-/* ================================== */
-/* === ESTILOS DO RESULTADO DA BUSCA CORRIGIDOS === */
-/* ================================== */
+/* Estilos para o Resultado da Busca */
 #search-result-container {
-    display: flex; /* MUDADO PARA FLEXBOX */
-    justify-content: center; /* CENTRALIZA OS ITENS */
-    flex-wrap: wrap; /* Permite que quebrem a linha */
-    gap: 20px; /* Espaçamento entre os cards */
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
     max-width: 1200px;
     margin: 20px auto;
     padding-bottom: 10px;
     animation: fadeIn 0.5s ease;
 }
-
 .hidden {
     display: none;
 }
-
-/* Estilo para o card do resultado da busca */
 .product-card-result {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     text-decoration: none;
     color: inherit;
-    width: 280px; /* Largura fixa para cada card */
+    width: 280px;
     padding: 15px;
     box-sizing: border-box;
     display: flex;
@@ -153,6 +148,7 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
 .error-message {
     color: #D8000C;
     font-weight: bold;
+    grid-column: 1 / -1;
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -171,16 +167,21 @@ p { font-size: 1em; margin-top: 5px; margin-bottom: 30px; color: #666; }
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Aumentei um pouco a duração para suavidade */
     text-decoration: none;
     color: inherit;
     display: flex;
     flex-direction: column;
 }
+
+/* ================================== */
+/* === EFEITO HOVER ATUALIZADO === */
+/* ================================== */
 .gallery-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px); /* Movimento de elevação mais sutil */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra mais suave e pronunciada */
 }
+
 .gallery-image {
     width: 100%;
     height: 280px;
@@ -250,12 +251,15 @@ footer a:hover {
     #product-number { width: 90%; margin-bottom: 10px; }
     #search-button { width: 90%; }
     
+    #search-result-container {
+        gap: 10px; 
+    }
     .gallery-grid { 
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
         gap: 10px; 
         padding-bottom: 20px;
     }
-    .product-card-result { width: 150px; } /* Faz o card do resultado ter a mesma largura da galeria no mobile */
+    .product-card-result { width: 150px; }
     .product-card-result .product-image { height: 150px; }
 
     .gallery-item { border-radius: 8px; }
