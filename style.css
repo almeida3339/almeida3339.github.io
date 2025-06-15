@@ -48,7 +48,7 @@ h1 {
     margin-top: 5px;
 }
 
-/* Links Sociais e Botões */
+/* Links Sociais e Botões - CORRIGIDO PARA USAR STROKE (CONTORNO) */
 .social-links {
     display: flex;
     justify-content: center;
@@ -57,15 +57,14 @@ h1 {
     gap: 15px 25px;
     margin: 15px 0;
 }
-/* CORREÇÃO 1: Alterado de 'stroke' para 'fill' para garantir que os ícones sejam preenchidos */
 .social-links .social-icon, .social-links-compact .social-icon {
     width: 28px;
     height: 28px;
-    fill: #111;
-    transition: fill .2s ease,transform .2s ease;
+    stroke: #111;
+    transition: stroke .2s ease,transform .2s ease;
 }
 .social-links a:hover .social-icon, .social-links-compact a:hover .social-icon {
-    fill: #D33618;
+    stroke: #D33618;
     transform: scale(1.1);
 }
 
@@ -251,8 +250,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 @media (max-width: 768px) {
     body { padding: 10px; }
 
-    /* CORREÇÃO 2: Seletor mais específico para garantir que o cabeçalho desktop seja escondido */
-    .container.desktop-header { display: none; } 
+    /* A única correção necessária: seletor mais específico */
+    .container.desktop-header { display: none; }
     .hero-banner, .social-links-compact { display: flex; }
 
     .hero-banner {
