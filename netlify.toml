@@ -1,14 +1,10 @@
-# Configurações de build para o Netlify
 [build]
-  # O diretório que será publicado. Como seus arquivos estão na raiz, usamos "."
-  publish = "."
+  publish = "."       # mantém a raiz como diretório publicado
+  # (não precisa de comando de build para site estático)
 
-# Configuração do plugin de sitemap
 [[plugins]]
-  # Nome do pacote do plugin
   package = "@netlify/plugin-sitemap"
 
-  # As opções do plugin devem vir logo abaixo, aninhadas.
-  [plugins.options]
-    # URL base do seu site para gerar os links corretos no sitemap
-    baseUrl = "https://cozinha-criativpromo.netlify.app"
+    [plugins.inputs]   # <-- era "options"
+    buildDir = "."     # garante que o sitemap seja salvo na pasta publicada
+    # urlPrefix ou baseUrl são opcionais; o plugin usa o domínio da Netlify
