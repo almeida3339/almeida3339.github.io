@@ -297,9 +297,10 @@ footer a:hover {
     
     /* Ajuste para a frase de busca caber em uma linha no celular */
     .main-content p.search-prompt { 
-        font-size: 0.85em; 
+        font-size:clamp(0.75rem,3.8vw,0.9rem); 
         margin-bottom: 20px;
-        padding: 0 10px; /* Adiciona um pequeno respiro nas laterais */
+        white-space:nowrap;       /* evita quebra */
+        overflow:hidden;          /* impede scroll horizontal */
     }
     
     .search-box { flex-direction: column; align-items: center; }
