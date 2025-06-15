@@ -319,11 +319,23 @@ footer a:hover {
     .gallery-title { padding: 10px; font-size: 0.8em; }
     footer { font-size: 0.7em; }
 }
-/* ===== OVERRIDE 2025‑06‑15 v7 ===== */
+
 @media (max-width: 768px) {
   .search-prompt {
     font-size: clamp(0.95rem, 4vw, 1.15rem) !important; /* ~15-18 px */
     white-space: nowrap !important;
     overflow: visible !important;
+  }
+}
+
+/* ===== FINAL FIX 2025‑06‑15 v8 ===== */
+@media (max-width: 768px) {
+  .search-prompt {
+    max-width: 92%;
+    margin: 0 auto 20px;
+    text-align: center;
+    font-size: clamp(0.95rem, 4vw, 1.1rem);
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
